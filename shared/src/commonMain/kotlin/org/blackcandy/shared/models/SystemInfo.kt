@@ -6,18 +6,21 @@ import kotlinx.serialization.Serializable
 data class SystemInfo(
     val version: Version,
     var serverAddress: String? = null,
+    val minAppVersion: Version? = null,
 ) {
-    companion object {
-        const val SUPPORTED_MINIMUM_MAJOR_VERSION = 3
-    }
+    val isServerSupported get() = MinServerVersion.isSupported(version)
 
-    val isSupported get() = version.major >= SUPPORTED_MINIMUM_MAJOR_VERSION
+    val isAppSupported: Boolean
+        get() {
+            val min = minAppVersion ?: return true
+            return AppVersion.isSupported(min)
+        }
 
     @Serializable
     data class Version(
         val major: Int,
         val minor: Int,
         val patch: Int,
-        val pre: String,
+        val pre: String = "",
     )
 }

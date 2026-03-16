@@ -298,6 +298,17 @@
         }
       }
     },
+    "text.unsupported_app" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please update the app to continue"
+          }
+        }
+      }
+    },
     "text.unsupported_server" : {
       "extractionState" : "manual",
       "localizations" : {

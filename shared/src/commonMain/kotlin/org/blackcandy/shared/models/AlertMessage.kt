@@ -4,6 +4,7 @@ sealed class AlertMessage {
     enum class DefinedMessages {
         INVALID_SERVER_ADDRESS,
         UNSUPPORTED_SERVER,
+        UNSUPPORTED_APP,
         ADDED_TO_PLAYLIST,
     }
 

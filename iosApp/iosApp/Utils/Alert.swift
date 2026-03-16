@@ -21,6 +21,8 @@ struct AlertMessageCover {
             return String(localized: "text.unsupported_server")
         case .invalidServerAddress:
             return String(localized: "text.invalid_server_address")
+        case .unsupportedApp:
+            return String(localized: "text.unsupported_app")
         case .addedToPlaylist:
             return String(localized: "text.added_to_playlist")
         }
