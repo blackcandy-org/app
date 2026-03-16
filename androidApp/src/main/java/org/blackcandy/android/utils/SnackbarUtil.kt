@@ -59,6 +59,7 @@ class SnackbarUtil {
             when (definedMessage) {
                 AlertMessage.DefinedMessages.UNSUPPORTED_SERVER -> R.string.unsupported_server
                 AlertMessage.DefinedMessages.INVALID_SERVER_ADDRESS -> R.string.invalid_server_address
+                AlertMessage.DefinedMessages.UNSUPPORTED_APP -> R.string.unsupported_app
                 AlertMessage.DefinedMessages.ADDED_TO_PLAYLIST -> R.string.added_to_playlist
             }
     }

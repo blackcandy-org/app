@@ -75,10 +75,16 @@ class LoginViewModel(
 
             when (val result = systemInfoRepository.getSystemInfo()) {
                 is TaskResult.Success -> {
-                    if (!result.data.isSupported) {
+                    if (!result.data.isServerSupported) {
                         _uiState.update {
                             it.copy(
                                 alertMessage = AlertMessage.LocalizedString(AlertMessage.DefinedMessages.UNSUPPORTED_SERVER),
+                            )
+                        }
+                    } else if (!result.data.isAppSupported) {
+                        _uiState.update {
+                            it.copy(
+                                alertMessage = AlertMessage.LocalizedString(AlertMessage.DefinedMessages.UNSUPPORTED_APP),
                             )
                         }
                     } else {
