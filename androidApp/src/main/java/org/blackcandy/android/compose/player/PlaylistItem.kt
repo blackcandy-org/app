@@ -110,7 +110,7 @@ fun PlaylistItem(
                     contentDescription = stringResource(R.string.drag_handle),
                 )
             },
-            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.inverseOnSurface),
+            colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         )
     }
 
