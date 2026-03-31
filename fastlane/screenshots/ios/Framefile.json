@@ -1,0 +1,22 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "title": {
+      "font": "./fonts/custom.ttf",
+      "color": "#2c2c2e",
+      "font_size": 85
+    },
+    "background": "./background.jpg",
+    "padding": "5%x10%",
+    "show_complete_frame": true,
+    "force_device_type": "iPhone 14 Pro"
+  },
+  "data": [
+    {
+      "filter": "tablet",
+      "force_device_type": "iPad Pro (12.9-inch) (4th generation)",
+      "title": { "font_size": 75 },
+      "padding": "7%x7.5%"
+    }
+  ]
+}

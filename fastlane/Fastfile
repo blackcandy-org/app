@@ -1,0 +1,8 @@
+platform :ios do
+  desc "Frame iOS screenshots with device frames and titles"
+  lane :frame do
+    frameit(
+      path: "./fastlane/screenshots/ios"
+    )
+  end
+end

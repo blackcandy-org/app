@@ -17,6 +17,8 @@ local.properties
 .idea
 /app/release/
 /fastlane/report.xml
+/fastlane/screenshots/**/*.png
+/fastlane/screenshots/**/fonts/*
 .kotlin
 xcuserdata/
 iosApp.xcconfig
