@@ -1,0 +1,99 @@
+name: iOS Release
+
+on:
+  push:
+    tags:
+      - 'ios/v*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Determine release type
+        id: release_type
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#ios/v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$TAG" == *.beta* ]] || [[ "$TAG" == *.rc* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate Config.xcconfig
+        run: |
+          cat > iosApp/iosApp/Configuration/Config.xcconfig <<EOF
+          BUNDLE_ID = ${{ secrets.IOS_BUNDLE_ID }}
+          TEAM_ID = ${{ secrets.IOS_TEAM_ID }}
+          APP_NAME = ${{ secrets.IOS_APP_NAME }}
+          EOF
+
+      - name: Set up App Store Connect API key
+        env:
+          API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+        run: |
+          mkdir -p ~/private_keys
+          KEY_ID=$(echo "$API_KEY_JSON" | jq -r '.key_id')
+          echo "$API_KEY_JSON" | jq -r '.key' > ~/private_keys/AuthKey_${KEY_ID}.p8
+          echo "API_KEY_ID=$KEY_ID" >> "$GITHUB_ENV"
+          echo "API_ISSUER_ID=$(echo "$API_KEY_JSON" | jq -r '.issuer_id')" >> "$GITHUB_ENV"
+
+      - name: Build archive
+        run: |
+          xcodebuild archive \
+            -scheme iosApp \
+            -project iosApp/iosApp.xcodeproj \
+            -archivePath "$RUNNER_TEMP/iosApp.xcarchive" \
+            -authenticationKeyPath ~/private_keys/AuthKey_${API_KEY_ID}.p8 \
+            -authenticationKeyID "$API_KEY_ID" \
+            -authenticationKeyIssuerID "$API_ISSUER_ID" \
+            -allowProvisioningUpdates
+
+      - name: Export IPA
+        run: |
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>app-store</string>
+          </dict>
+          </plist>
+          EOF
+
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/iosApp.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
+            -authenticationKeyPath ~/private_keys/AuthKey_${API_KEY_ID}.p8 \
+            -authenticationKeyID "$API_KEY_ID" \
+            -authenticationKeyIssuerID "$API_ISSUER_ID" \
+            -allowProvisioningUpdates
+
+      - name: Upload to TestFlight
+        if: steps.release_type.outputs.prerelease == 'true'
+        run: |
+          xcrun altool --upload-app \
+            -f "$RUNNER_TEMP/export/"*.ipa \
+            -t ios \
+            --apiKey "$API_KEY_ID" \
+            --apiIssuer "$API_ISSUER_ID"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "iOS v${{ steps.release_type.outputs.version }}"
+          prerelease: ${{ steps.release_type.outputs.prerelease }}
+          generate_release_notes: true
+          files: ${{ runner.temp }}/export/*.ipa

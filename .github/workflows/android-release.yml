@@ -1,0 +1,56 @@
+name: Android Release
+
+on:
+  push:
+    tags:
+      - 'android/v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > /tmp/release.keystore
+
+      - name: Determine release type
+        id: release_type
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#android/v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$TAG" == *.beta* ]] || [[ "$TAG" == *.rc* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build APK
+        run: |
+          ./gradlew :androidApp:assembleRelease \
+            -Pandroid.injected.signing.store.file=/tmp/release.keystore \
+            -Pandroid.injected.signing.store.password="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            -Pandroid.injected.signing.key.alias="${{ secrets.ANDROID_KEY_ALIAS }}" \
+            -Pandroid.injected.signing.key.password="${{ secrets.ANDROID_KEY_PASSWORD }}"
+
+      - name: Rename APK
+        run: |
+          VERSION="${{ steps.release_type.outputs.version }}"
+          mv androidApp/build/outputs/apk/release/androidApp-release.apk \
+             androidApp/build/outputs/apk/release/BlackCandy-v${VERSION}.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Android v${{ steps.release_type.outputs.version }}"
+          prerelease: ${{ steps.release_type.outputs.prerelease }}
+          generate_release_notes: true
+          files: androidApp/build/outputs/apk/release/BlackCandy-*.apk
