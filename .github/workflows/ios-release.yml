@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: macos-latest
 
+    env:
+      API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -39,14 +43,9 @@ jobs:
           EOF
 
       - name: Set up App Store Connect API key
-        env:
-          API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
           mkdir -p ~/private_keys
-          KEY_ID=$(echo "$API_KEY_JSON" | jq -r '.key_id')
-          echo "$API_KEY_JSON" | jq -r '.key' > ~/private_keys/AuthKey_${KEY_ID}.p8
-          echo "API_KEY_ID=$KEY_ID" >> "$GITHUB_ENV"
-          echo "API_ISSUER_ID=$(echo "$API_KEY_JSON" | jq -r '.issuer_id')" >> "$GITHUB_ENV"
+          echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" > ~/private_keys/AuthKey_${API_KEY_ID}.p8
 
       - name: Build archive
         run: |
