@@ -40,7 +40,8 @@ private fun provideEncryptedSharedPreferences(appContext: Context): SharedPrefer
     try {
         createEncryptedSharedPreferences(appContext)
     } catch (e: Exception) {
-        appContext.getSharedPreferences(ENCRYPTED_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
+        appContext
+            .getSharedPreferences(ENCRYPTED_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
             .edit()
             .clear()
             .commit()
