@@ -37,6 +37,19 @@ private fun provideDataStore(appContext: Context): DataStore<Preferences> =
     )
 
 private fun provideEncryptedSharedPreferences(appContext: Context): SharedPreferences =
+    try {
+        createEncryptedSharedPreferences(appContext)
+    } catch (e: Exception) {
+        appContext
+            .getSharedPreferences(ENCRYPTED_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .clear()
+            .commit()
+        appContext.deleteSharedPreferences(ENCRYPTED_SHARED_PREFERENCES_FILE_NAME)
+        createEncryptedSharedPreferences(appContext)
+    }
+
+private fun createEncryptedSharedPreferences(appContext: Context): SharedPreferences =
     EncryptedSharedPreferences.create(
         ENCRYPTED_SHARED_PREFERENCES_FILE_NAME,
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
@@ -48,9 +61,9 @@ private fun provideEncryptedSharedPreferences(appContext: Context): SharedPrefer
 @androidx.annotation.OptIn(UnstableApi::class)
 private fun provideDataSourceFactory(encryptedDataSource: EncryptedDataSource): DataSource.Factory {
     val httpClient = OkHttpClient().newBuilder().build()
-    val apiToken = encryptedDataSource.getApiToken()
 
     return DataSource.Factory {
+        val apiToken = encryptedDataSource.getApiToken()
         val dataSource =
             OkHttpDataSource.Factory(httpClient).createDataSource()
 
