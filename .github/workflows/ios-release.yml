@@ -61,39 +61,11 @@ jobs:
             -authenticationKeyIssuerID "$API_ISSUER_ID" \
             -allowProvisioningUpdates
 
-      - name: Export IPA
-        run: |
-          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key>
-            <string>app-store-connect</string>
-            <key>signingStyle</key>
-            <string>automatic</string>
-            <key>teamID</key>
-            <string>${{ secrets.IOS_TEAM_ID }}</string>
-            <key>uploadSymbols</key>
-            <true/>
-          </dict>
-          </plist>
-          EOF
-
-          xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/iosApp.xcarchive" \
-            -exportPath "$RUNNER_TEMP/export" \
-            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            -authenticationKeyPath ~/private_keys/AuthKey_${API_KEY_ID}.p8 \
-            -authenticationKeyID "$API_KEY_ID" \
-            -authenticationKeyIssuerID "$API_ISSUER_ID" \
-            -allowProvisioningUpdates
-
       - name: Upload to TestFlight
         if: steps.release_type.outputs.prerelease == 'true'
         run: |
           xcrun altool --upload-app \
-            -f "$RUNNER_TEMP/export/"*.ipa \
+            -f "$RUNNER_TEMP/iosApp.xcarchive" \
             -t ios \
             --apiKey "$API_KEY_ID" \
             --apiIssuer "$API_ISSUER_ID"
@@ -104,4 +76,3 @@ jobs:
           name: "iOS v${{ steps.release_type.outputs.version }}"
           prerelease: ${{ steps.release_type.outputs.prerelease }}
           generate_release_notes: true
-          files: ${{ runner.temp }}/export/*.ipa
