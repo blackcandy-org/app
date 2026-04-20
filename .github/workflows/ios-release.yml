@@ -54,6 +54,7 @@ jobs:
           xcodebuild archive \
             -scheme iosApp \
             -project iosApp/iosApp.xcodeproj \
+            -destination 'generic/platform=iOS' \
             -archivePath "$RUNNER_TEMP/iosApp.xcarchive" \
             -authenticationKeyPath ~/private_keys/AuthKey_${API_KEY_ID}.p8 \
             -authenticationKeyID "$API_KEY_ID" \
