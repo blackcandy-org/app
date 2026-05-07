@@ -13,8 +13,8 @@ android {
         applicationId = "org.blackcandy.android"
         minSdk = 28
         targetSdk = 34
-        versionCode = 4
-        versionName = "2.0.0.beta1"
+        versionCode = 5
+        versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

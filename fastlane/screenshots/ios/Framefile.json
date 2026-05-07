@@ -9,7 +9,7 @@
     "background": "./background.jpg",
     "padding": "5%x10%",
     "show_complete_frame": true,
-    "force_device_type": "iPhone 14 Pro"
+    "force_device_type": "iPhone 14 Pro Max"
   },
   "data": [
     {
