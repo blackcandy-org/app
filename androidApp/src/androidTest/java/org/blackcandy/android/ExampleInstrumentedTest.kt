@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("org.blackcandy.android", appContext.packageName)
+        assertEquals("org.blackcandy.androidApp", appContext.packageName)
     }
 }
