@@ -15,7 +15,7 @@
 local.properties
 .env
 .idea
-/app/release/
+/androidApp/release/
 /fastlane/report.xml
 /fastlane/screenshots/**/*.png
 /fastlane/screenshots/**/fonts/*
