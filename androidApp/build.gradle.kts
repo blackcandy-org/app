@@ -13,10 +13,15 @@ android {
         applicationId = "org.blackcandy.androidApp"
         minSdk = 28
         targetSdk = 34
-        versionCode = 6
-        versionName = "2.0.1"
+        versionCode = 7
+        versionName = "2.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 
     lint {
