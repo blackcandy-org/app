@@ -254,7 +254,7 @@ actual class MusicServiceController(
 
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = nowPlayingInfo
 
-        updateAlbumArtwork(song.albumImageUrl.large)
+        updateAlbumArtwork(song.albumImageUrls.large)
     }
 
     private fun updateAlbumArtwork(urlString: String) {

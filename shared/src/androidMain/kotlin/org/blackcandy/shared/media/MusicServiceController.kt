@@ -282,7 +282,7 @@ actual class MusicServiceController(
                     .setTitle(song.name)
                     .setArtist(song.artistName)
                     .setAlbumTitle(song.albumName)
-                    .setArtworkUri(Uri.parse(song.albumImageUrl.large))
+                    .setArtworkUri(Uri.parse(song.albumImageUrls.large))
                     .build(),
             ).build()
 

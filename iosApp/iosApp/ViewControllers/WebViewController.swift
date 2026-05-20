@@ -31,4 +31,14 @@ class WebViewController: HotwireWebViewController {
     deinit {
         observationTask?.cancel()
     }
+
+    override func visitableDidRender() {
+        super.visitableDidRender()
+
+        if currentVisitableURL.path == NEW_SESSION_PATH {
+            viewModel.logout(onSuccess: {
+                changeRootViewController(viewController: LoginViewController())
+            })
+        }
+    }
 }

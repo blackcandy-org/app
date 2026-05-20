@@ -3,23 +3,23 @@ package org.blackcandy.shared.api
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
-import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.client.statement.request
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLBuilder
-import io.ktor.http.parameters
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
-import kotlinx.serialization.json.int
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.putJsonObject
 import org.blackcandy.shared.models.AuthenticationResponse
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.models.SystemInfo
@@ -86,15 +86,16 @@ class BlackCandyServiceImpl(
     ): ApiResponse<AuthenticationResponse> =
         handleResponse {
             val response: HttpResponse =
-                client.submitForm(
-                    url = "authentication",
-                    formParameters =
-                        parameters {
-                            append("with_cookie", "true")
-                            append("session[email]", email)
-                            append("session[password]", password)
+                client.post("sessions") {
+                    setBody(
+                        buildJsonObject {
+                            putJsonObject("session") {
+                                put("email", email)
+                                put("password", password)
+                            }
                         },
-                )
+                    )
+                }
 
             val userElement = Json.parseToJsonElement(response.bodyAsText()).jsonObject["user"]!!
 
@@ -102,7 +103,7 @@ class BlackCandyServiceImpl(
             val id = userElement.jsonObject["id"]?.jsonPrimitive?.long!!
             val userEmail = userElement.jsonObject["email"]?.jsonPrimitive.toString()
             val isAdmin = userElement.jsonObject["is_admin"]?.jsonPrimitive?.boolean!!
-            val cookies = response.headers.getAll(HttpHeaders.SetCookie)!!
+            val cookies = response.headers.getAll(HttpHeaders.SetCookie) ?: emptyList()
 
             AuthenticationResponse(
                 token = token,
@@ -118,7 +119,7 @@ class BlackCandyServiceImpl(
 
     override suspend fun removeAuthentication(): ApiResponse<Unit> =
         handleResponse {
-            client.delete("authentication").body()
+            client.delete("my/session").body()
         }
 
     override suspend fun getSongsFromCurrentPlaylist(): ApiResponse<List<Song>> =
@@ -130,7 +131,11 @@ class BlackCandyServiceImpl(
         handleResponse {
             client
                 .post("favorite_playlist/songs") {
-                    parameter("song_id", songId.toString())
+                    setBody(
+                        buildJsonObject {
+                            put("song_id", songId)
+                        },
+                    )
                 }.body()
         }
 
@@ -156,7 +161,11 @@ class BlackCandyServiceImpl(
         handleResponse {
             client
                 .put("current_playlist/songs/$songId/move") {
-                    parameter("destination_song_id", destinationSongId.toString())
+                    setBody(
+                        buildJsonObject {
+                            put("destination_song_id", destinationSongId)
+                        },
+                    )
                 }.body()
         }
 
@@ -178,15 +187,19 @@ class BlackCandyServiceImpl(
         handleResponse {
             client
                 .post("current_playlist/songs") {
-                    parameter("song_id", songId.toString())
+                    setBody(
+                        buildJsonObject {
+                            put("song_id", songId)
 
-                    if (currentSongId != null) {
-                        parameter("current_song_id", currentSongId.toString())
-                    }
+                            if (currentSongId != null) {
+                                put("current_song_id", currentSongId)
+                            }
 
-                    if (location != null) {
-                        parameter("location", location)
-                    }
+                            if (location != null) {
+                                put("location", location)
+                            }
+                        },
+                    )
                 }.body()
         }
 

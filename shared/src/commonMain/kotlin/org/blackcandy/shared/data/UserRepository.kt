@@ -1,6 +1,5 @@
 package org.blackcandy.shared.data
 
-import androidx.datastore.core.DataStore
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerAuthProvider

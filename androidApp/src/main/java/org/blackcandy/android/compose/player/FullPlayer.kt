@@ -101,7 +101,7 @@ fun PlayerHorizontalLayout(
         horizontalArrangement = Arrangement.Center,
     ) {
         PlayerArt(
-            imageURL = currentSong?.albumImageUrl?.large,
+            imageURL = currentSong?.albumImageUrls?.large,
             size = dimensionResource(R.dimen.player_album_cover_large_size),
             modifier =
                 Modifier
@@ -183,7 +183,7 @@ fun PlayerVerticalLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             PlayerArt(
-                imageURL = currentSong?.albumImageUrl?.large,
+                imageURL = currentSong?.albumImageUrls?.large,
                 size = dimensionResource(if (isExpandedHeight) R.dimen.player_album_cover_large_size else R.dimen.player_album_cover_size),
             )
 

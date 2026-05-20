@@ -21,6 +21,6 @@ data class SystemInfo(
         val major: Int,
         val minor: Int,
         val patch: Int,
-        val pre: String = "",
+        val pre: String? = null,
     )
 }

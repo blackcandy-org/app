@@ -10,6 +10,8 @@ import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -90,7 +92,8 @@ private fun provideHttpClient(
                     preferencesDataSource.getServerAddress()
                 }
 
-            url("$serverAddress/api/v1/")
+            url("$serverAddress/")
+            contentType(ContentType.Application.Json)
         }
 
         HttpResponseValidator {
