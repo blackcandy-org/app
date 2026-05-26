@@ -11,7 +11,7 @@ The official Black Candy mobile app. To use this app, you must have a Black Cand
 Black Candy mobile apps are available in the following app stores:
 
 [<img src="https://raw.githubusercontent.com/blackcandy-org/app/master/images/appstore_badge.png" alt="Get it on App Store" height="50">](https://apps.apple.com/app/blackcandy/id6444304071)
-[<img src="https://raw.githubusercontent.com/blackcandy-org/app/master/images/fdroid_badge.png" alt="Get it on F-Droid" height="50">](https://f-droid.org/packages/org.blackcandy.android/)
+[<img src="https://raw.githubusercontent.com/blackcandy-org/app/master/images/fdroid_badge.png" alt="Get it on F-Droid" height="50">](https://f-droid.org/packages/org.blackcandy.androidApp/)
 
 
 For Android app, you can also download APK from [GitHub Release](https://github.com/blackcandy-org/app/releases/latest)
