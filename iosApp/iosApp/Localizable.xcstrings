@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "label.about" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
     "label.account" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -89,17 +100,6 @@
         }
       }
     },
-    "label.manage_users" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Users"
-          }
-        }
-      }
-    },
     "label.no_items" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -184,17 +184,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld tracks"
-          }
-        }
-      }
-    },
-    "label.update_profile" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Update Profile"
           }
         }
       }
