@@ -35,8 +35,7 @@ class AccountComponent(
         when (message.event) {
             "connect" -> handleConnectEvent(message)
             "menuItemConnected:settings" -> handleMenuItemConnectedEvent("settings")
-            "menuItemConnected:manage_users" -> handleMenuItemConnectedEvent("manage_users")
-            "menuItemConnected:update_profile" -> handleMenuItemConnectedEvent("update_profile")
+            "menuItemConnected:about" -> handleMenuItemConnectedEvent("about")
             "menuItemConnected:logout" -> handleMenuItemConnectedEvent("logout")
         }
     }
@@ -85,19 +84,10 @@ class AccountComponent(
                 )
             }
 
-            "manage_users" -> {
+            "about" -> {
                 menuItems.add(
-                    MenuItem("manage_users", R.string.manage_users, R.drawable.baseline_people_24, {
-                        replyTo("menuItemConnected:manage_users")
-                        bottomSheet.dismiss()
-                    }),
-                )
-            }
-
-            "update_profile" -> {
-                menuItems.add(
-                    MenuItem("update_profile", R.string.update_profile, R.drawable.baseline_face_24, {
-                        replyTo("menuItemConnected:update_profile")
+                    MenuItem("about", R.string.about, R.drawable.baseline_info_24, {
+                        replyTo("menuItemConnected:about")
                         bottomSheet.dismiss()
                     }),
                 )

@@ -23,10 +23,8 @@ class AccountComponent: BridgeComponent {
             handleConnectEvent()
         case "menuItemConnected:settings":
             handleMenuItemConnectedEvent("settings")
-        case "menuItemConnected:manage_users":
-            handleMenuItemConnectedEvent("manage_users")
-        case "menuItemConnected:update_profile":
-            handleMenuItemConnectedEvent("update_profile")
+        case "menuItemConnected:about":
+            handleMenuItemConnectedEvent("about")
         case "menuItemConnected:logout":
             handleMenuItemConnectedEvent("logout")
         default:
@@ -66,23 +64,13 @@ class AccountComponent: BridgeComponent {
                     }
                 )
             )
-        case "manage_users":
+        case "about":
             menuItems.append(
                 .init(
-                    id: "manage_users",
-                    title: String(localized: "label.manage_users"),
+                    id: "about",
+                    title: String(localized: "label.about"),
                     action: {
-                        self.reply(to: "menuItemConnected:manage_users")
-                    }
-                )
-            )
-        case "update_profile":
-            menuItems.append(
-                .init(
-                    id: "update_profile",
-                    title: String(localized: "label.update_profile"),
-                    action: {
-                        self.reply(to: "menuItemConnected:update_profile")
+                        self.reply(to: "menuItemConnected:about")
                     }
                 )
             )

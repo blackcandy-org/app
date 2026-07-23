@@ -2,7 +2,10 @@
   "rules": [
     {
       "patterns": [
-        "^/dialog/*"
+        "^/albums/[0-9]+/edit$",
+        "^/artists/[0-9]+/edit$",
+        "^/playlists/selections/?.+$",
+        "^/playlists/new$"
       ],
       "properties": {
         "context": "modal"
