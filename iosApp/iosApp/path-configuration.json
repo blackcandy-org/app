@@ -10,6 +10,14 @@
       "properties": {
         "context": "modal"
       }
+    },
+    {
+      "patterns": [
+        "^/albums$"
+      ],
+      "properties": {
+        "view_controller": "albums"
+      }
     }
   ]
 }

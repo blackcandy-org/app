@@ -2,7 +2,7 @@
 androidxActivity = "1.9.0"
 androidxWindow = "1.2.0"
 androidxNavigationCompose = "2.7.7"
-androidxComposeBom = "2024.05.00"
+androidxComposeBom = "2024.09.00"
 androidxLifecycle = "2.8.0"
 androidxCore = "1.13.1"
 androidxAppcompat = "1.6.1"

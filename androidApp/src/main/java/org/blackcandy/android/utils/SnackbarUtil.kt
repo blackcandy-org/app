@@ -33,26 +33,36 @@ class SnackbarUtil {
         fun showSnackbar(
             activity: Activity,
             message: AlertMessage,
+            actionText: String? = null,
+            onAction: (() -> Unit)? = null,
             onShown: () -> Unit,
-        ) {
+        ): Snackbar? {
             val rootView = activity.findViewById<View>(R.id.main_layout)
 
             val snackbarText =
                 when (message) {
                     is AlertMessage.String -> message.value
                     is AlertMessage.LocalizedString -> rootView.context.getString(getLocalizedString(message.value))
-                } ?: return
+                } ?: return null
 
-            Snackbar
-                .make(rootView, snackbarText, Snackbar.LENGTH_SHORT)
-                .addCallback(
+            // An action must not time out before it can be taken. The root view is a
+            // CoordinatorLayout, so an indefinite snackbar can still be swiped away.
+            val duration = if (onAction == null) Snackbar.LENGTH_SHORT else Snackbar.LENGTH_INDEFINITE
+
+            return Snackbar
+                .make(rootView, snackbarText, duration)
+                .apply {
+                    if (actionText != null && onAction != null) {
+                        setAction(actionText) { onAction() }
+                    }
+                }.addCallback(
                     object : Snackbar.Callback() {
                         override fun onShown(sb: Snackbar?) {
                             super.onShown(sb)
                             onShown()
                         }
                     },
-                ).show()
+                ).also { it.show() }
         }
 
         fun getLocalizedString(definedMessage: AlertMessage.DefinedMessages): Int =

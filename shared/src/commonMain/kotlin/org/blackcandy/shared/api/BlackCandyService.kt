@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -20,6 +21,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
+import org.blackcandy.shared.models.Album
 import org.blackcandy.shared.models.AuthenticationResponse
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.models.SystemInfo
@@ -59,6 +61,8 @@ interface BlackCandyService {
         currentSongId: Long?,
         location: String?,
     ): ApiResponse<Song>
+
+    suspend fun getAlbums(page: Int): ApiResponse<Paged<Album>>
 }
 
 class BlackCandyServiceImpl(
@@ -201,6 +205,21 @@ class BlackCandyServiceImpl(
                         },
                     )
                 }.body()
+        }
+
+    override suspend fun getAlbums(page: Int): ApiResponse<Paged<Album>> =
+        handleResponse {
+            val response =
+                client.get("albums") {
+                    parameter("page", page)
+                }
+
+            val albums: List<Album> = response.body()
+
+            Paged(
+                items = albums,
+                pageInfo = PageInfo.from(response.headers, albums.size),
+            )
         }
 
     private suspend fun <T> handleResponse(request: suspend () -> T): ApiResponse<T> =

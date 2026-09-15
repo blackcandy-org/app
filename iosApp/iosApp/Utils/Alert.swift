@@ -30,7 +30,11 @@ struct AlertMessageCover {
 }
 
 extension View {
-    @ViewBuilder func alertMessage(_ message: AlertMessage?, onShown: @escaping () -> Void) -> some View {
+    @ViewBuilder func alertMessage(
+        _ message: AlertMessage?,
+        onShown: @escaping () -> Void,
+        onRetry: (() -> Void)? = nil
+    ) -> some View {
         let alertMessage = AlertMessageCover.toString(message)
 
         alert(
@@ -42,7 +46,12 @@ extension View {
                     if !presented { onShown() }
                 }
             )
-        ) {}
+        ) {
+            if let onRetry {
+                Button("label.retry") { onRetry() }
+                Button("label.ok", role: .cancel) {}
+            }
+        }
     }
 
 }

@@ -21,6 +21,7 @@ import org.blackcandy.shared.api.ApiError
 import org.blackcandy.shared.api.ApiException
 import org.blackcandy.shared.api.BlackCandyService
 import org.blackcandy.shared.api.BlackCandyServiceImpl
+import org.blackcandy.shared.data.AlbumRepository
 import org.blackcandy.shared.data.CurrentPlaylistRepository
 import org.blackcandy.shared.data.EncryptedDataSource
 import org.blackcandy.shared.data.FavoritePlaylistRepository
@@ -29,6 +30,7 @@ import org.blackcandy.shared.data.ServerAddressRepository
 import org.blackcandy.shared.data.SystemInfoRepository
 import org.blackcandy.shared.data.UserRepository
 import org.blackcandy.shared.utils.BLACK_CANDY_USER_AGENT
+import org.blackcandy.shared.viewmodels.AlbumsViewModel
 import org.blackcandy.shared.viewmodels.LoginViewModel
 import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MiniPlayerViewModel
@@ -51,6 +53,7 @@ val commonModule =
         single { UserRepository(get(), get(), get(), get()) }
         single { CurrentPlaylistRepository(get()) }
         single { FavoritePlaylistRepository(get()) }
+        single { AlbumRepository(get()) }
 
         viewModel { MainViewModel(get(), get()) }
         viewModel { LoginViewModel(get(), get(), get()) }
@@ -58,6 +61,7 @@ val commonModule =
         viewModel { PlayerViewModel(get(), get(), get()) }
         viewModel { WebViewModel(get(), get(), get()) }
         viewModel { MusicServiceViewModel(get(), get()) }
+        viewModel { AlbumsViewModel(get()) }
     }
 
 private fun provideHttpClient(

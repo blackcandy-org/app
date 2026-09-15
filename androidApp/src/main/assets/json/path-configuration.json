@@ -45,6 +45,14 @@
         "uri": "hotwire://fragment/web/bottom_sheet",
         "pull_to_refresh_enabled": false
       }
+    },
+    {
+      "patterns": [
+        "^/albums$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/albums"
+      }
     }
   ]
 }

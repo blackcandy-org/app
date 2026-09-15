@@ -18,4 +18,5 @@
     <dimen name="player_content_max_width">400dp</dimen>
     <dimen name="login_form_max_width">500dp</dimen>
     <dimen name="playlist_max_height">550dp</dimen>
+    <dimen name="album_grid_min_width">150dp</dimen>
 </resources>

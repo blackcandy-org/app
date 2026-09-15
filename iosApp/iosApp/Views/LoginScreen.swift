@@ -27,7 +27,7 @@ struct LoginScreen: View {
                             password: uiState.password,
                             onLoginButtonClicked: {
                                 viewModel.login(onSuccess: { serverAddress in
-                                    changeRootViewController(viewController: MainViewController(serverAddress: serverAddress))
+                                    changeRootViewController(viewController: MainViewController(serverAddress: serverAddress, navigatorDelegate: currentSceneDelegate()))
                                 })
                             },
                             onEmailChanged: { email in
