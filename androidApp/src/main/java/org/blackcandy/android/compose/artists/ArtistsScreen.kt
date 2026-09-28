@@ -1,4 +1,4 @@
-package org.blackcandy.android.compose.albums
+package org.blackcandy.android.compose.artists
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,13 +20,13 @@ import androidx.compose.ui.res.stringResource
 import org.blackcandy.android.R
 import org.blackcandy.android.compose.CoverCard
 import org.blackcandy.android.compose.LoadingIndicator
-import org.blackcandy.shared.viewmodels.AlbumsViewModel
+import org.blackcandy.shared.viewmodels.ArtistsViewModel
 import org.koin.androidx.compose.koinViewModel
 
 private const val LOAD_MORE_THRESHOLD = 6
 
 @Composable
-fun AlbumsScreen(viewModel: AlbumsViewModel = koinViewModel()) {
+fun ArtistsScreen(viewModel: ArtistsViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
@@ -59,12 +59,11 @@ fun AlbumsScreen(viewModel: AlbumsViewModel = koinViewModel()) {
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
     ) {
-        items(uiState.albums, key = { it.id }) { album ->
+        items(uiState.artists, key = { it.id }) { artist ->
             CoverCard(
-                name = album.name,
-                imageUrl = album.imageUrls.medium,
-                contentDescription = stringResource(R.string.album_cover),
-                subtitle = album.artistName,
+                name = artist.name,
+                imageUrl = artist.imageUrls.medium,
+                contentDescription = stringResource(R.string.artist_image),
             )
         }
 

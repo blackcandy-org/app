@@ -18,6 +18,14 @@
       "properties": {
         "view_controller": "albums"
       }
+    },
+    {
+      "patterns": [
+        "^/artists$"
+      ],
+      "properties": {
+        "view_controller": "artists"
+      }
     }
   ]
 }

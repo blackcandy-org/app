@@ -53,6 +53,14 @@
       "properties": {
         "uri": "hotwire://fragment/albums"
       }
+    },
+    {
+      "patterns": [
+        "^/artists$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/artists"
+      }
     }
   ]
 }

@@ -4,7 +4,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -22,6 +21,7 @@ import kotlinx.serialization.json.long
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import org.blackcandy.shared.models.Album
+import org.blackcandy.shared.models.Artist
 import org.blackcandy.shared.models.AuthenticationResponse
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.models.SystemInfo
@@ -62,7 +62,9 @@ interface BlackCandyService {
         location: String?,
     ): ApiResponse<Song>
 
-    suspend fun getAlbums(page: Int): ApiResponse<Paged<Album>>
+    suspend fun getAlbums(url: String? = null): ApiResponse<Paged<Album>>
+
+    suspend fun getArtists(url: String? = null): ApiResponse<Paged<Artist>>
 }
 
 class BlackCandyServiceImpl(
@@ -207,19 +209,18 @@ class BlackCandyServiceImpl(
                 }.body()
         }
 
-    override suspend fun getAlbums(page: Int): ApiResponse<Paged<Album>> =
+    override suspend fun getAlbums(url: String?): ApiResponse<Paged<Album>> = getPaged(url ?: "albums") { getAlbums(it) }
+
+    override suspend fun getArtists(url: String?): ApiResponse<Paged<Artist>> = getPaged(url ?: "artists") { getArtists(it) }
+
+    private suspend inline fun <reified T> getPaged(
+        url: String,
+        noinline loadPage: suspend (String) -> ApiResponse<Paged<T>>,
+    ): ApiResponse<Paged<T>> =
         handleResponse {
-            val response =
-                client.get("albums") {
-                    parameter("page", page)
-                }
+            val response = client.get(url)
 
-            val albums: List<Album> = response.body()
-
-            Paged(
-                items = albums,
-                pageInfo = PageInfo.from(response.headers, albums.size),
-            )
+            Paged.from(items = response.body<List<T>>(), headers = response.headers, loadPage = loadPage)
         }
 
     private suspend fun <T> handleResponse(request: suspend () -> T): ApiResponse<T> =

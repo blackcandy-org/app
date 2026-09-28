@@ -7,28 +7,28 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.blackcandy.shared.api.Paged
-import org.blackcandy.shared.data.AlbumRepository
-import org.blackcandy.shared.models.Album
+import org.blackcandy.shared.data.ArtistRepository
 import org.blackcandy.shared.models.AlertMessage
+import org.blackcandy.shared.models.Artist
 import org.blackcandy.shared.utils.TaskResult
 
-data class AlbumsUiState(
-    val loadedPages: Paged<Album>? = null,
+data class ArtistsUiState(
+    val loadedPages: Paged<Artist>? = null,
     val isLoading: Boolean = false,
     val alertMessage: AlertMessage? = null,
 ) {
-    val albums: List<Album> get() = loadedPages?.items ?: emptyList()
+    val artists: List<Artist> get() = loadedPages?.items ?: emptyList()
 }
 
-class AlbumsViewModel(
-    private val albumRepository: AlbumRepository,
+class ArtistsViewModel(
+    private val artistRepository: ArtistRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(AlbumsUiState())
+    private val _uiState = MutableStateFlow(ArtistsUiState())
 
     val uiState = _uiState.asStateFlow()
 
     fun loadFirstPage() {
-        load { albumRepository.getAlbums() }
+        load { artistRepository.getArtists() }
     }
 
     fun loadNextPage() {
@@ -46,7 +46,7 @@ class AlbumsViewModel(
         _uiState.update { it.copy(alertMessage = null) }
     }
 
-    private fun load(request: suspend () -> TaskResult<Paged<Album>>) {
+    private fun load(request: suspend () -> TaskResult<Paged<Artist>>) {
         if (_uiState.value.isLoading) return
 
         viewModelScope.launch {

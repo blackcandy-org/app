@@ -69,6 +69,8 @@ extension SceneDelegate: NavigatorDelegate {
         switch proposal.viewController {
         case AlbumsViewController.pathConfigurationIdentifier:
             return .acceptCustom(AlbumsViewController())
+        case ArtistsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(ArtistsViewController())
         default:
             return .accept
         }

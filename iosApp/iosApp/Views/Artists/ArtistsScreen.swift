@@ -1,8 +1,8 @@
 import SwiftUI
 import sharedKit
 
-struct AlbumsScreen: View {
-    private let viewModel: AlbumsViewModel = KoinHelper().getAlbumsViewModel()
+struct ArtistsScreen: View {
+    private let viewModel: ArtistsViewModel = KoinHelper().getArtistsViewModel()
 
     private let columns = [
         GridItem(
@@ -16,14 +16,13 @@ struct AlbumsScreen: View {
         Observing(viewModel.uiState) { uiState in
             ScrollView {
                 LazyVGrid(columns: columns, spacing: CustomStyle.spacing(.large)) {
-                    ForEach(uiState.albums, id: \.id) { album in
+                    ForEach(uiState.artists, id: \.id) { artist in
                         CoverCard(
-                            name: album.name,
-                            imageUrl: album.imageUrls.medium,
-                            subtitle: album.artistName
+                            name: artist.name,
+                            imageUrl: artist.imageUrls.medium
                         )
                         .onAppear {
-                            if album.id == uiState.albums.last?.id {
+                            if artist.id == uiState.artists.last?.id {
                                 viewModel.loadNextPage()
                             }
                         }
@@ -31,13 +30,13 @@ struct AlbumsScreen: View {
                 }
                 .padding(CustomStyle.spacing(.medium))
 
-                if uiState.isLoading && !uiState.albums.isEmpty {
+                if uiState.isLoading && !uiState.artists.isEmpty {
                     ProgressView()
                         .padding(.bottom, CustomStyle.spacing(.medium))
                 }
             }
             .overlay {
-                if uiState.albums.isEmpty && uiState.isLoading {
+                if uiState.artists.isEmpty && uiState.isLoading {
                     ProgressView()
                 }
             }
