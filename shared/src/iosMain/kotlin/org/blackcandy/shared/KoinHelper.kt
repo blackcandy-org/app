@@ -7,6 +7,7 @@ import org.blackcandy.shared.viewmodels.LoginViewModel
 import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.blackcandy.shared.viewmodels.PlayerViewModel
+import org.blackcandy.shared.viewmodels.SongsViewModel
 import org.blackcandy.shared.viewmodels.WebViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -32,4 +33,6 @@ class KoinHelper : KoinComponent {
     fun getAlbumsViewModel(): AlbumsViewModel = get()
 
     fun getArtistsViewModel(): ArtistsViewModel = get()
+
+    fun getSongsViewModel(): SongsViewModel = get()
 }

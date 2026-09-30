@@ -26,6 +26,14 @@
       "properties": {
         "view_controller": "artists"
       }
+    },
+    {
+      "patterns": [
+        "^/songs$"
+      ],
+      "properties": {
+        "view_controller": "songs"
+      }
     }
   ]
 }

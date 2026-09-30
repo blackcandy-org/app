@@ -27,13 +27,20 @@ struct AlertMessageCover {
             return String(localized: "text.added_to_playlist")
         }
     }
+
+    static func getActionText(action: AlertMessage.Action) -> String {
+        switch action {
+        case .retry:
+            return String(localized: "label.retry")
+        }
+    }
 }
 
 extension View {
     @ViewBuilder func alertMessage(
         _ message: AlertMessage?,
         onShown: @escaping () -> Void,
-        onRetry: (() -> Void)? = nil
+        onAction: ((AlertMessage.Action) -> Void)? = nil
     ) -> some View {
         let alertMessage = AlertMessageCover.toString(message)
 
@@ -47,8 +54,8 @@ extension View {
                 }
             )
         ) {
-            if let onRetry {
-                Button("label.retry") { onRetry() }
+            if let onAction, let action = message?.action {
+                Button(AlertMessageCover.getActionText(action: action)) { onAction(action) }
                 Button("label.ok", role: .cancel) {}
             }
         }

@@ -71,6 +71,8 @@ extension SceneDelegate: NavigatorDelegate {
             return .acceptCustom(AlbumsViewController())
         case ArtistsViewController.pathConfigurationIdentifier:
             return .acceptCustom(ArtistsViewController())
+        case SongsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(SongsViewController())
         default:
             return .accept
         }

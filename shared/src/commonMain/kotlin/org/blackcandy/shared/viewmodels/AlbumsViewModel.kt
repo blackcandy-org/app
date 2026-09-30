@@ -38,12 +38,18 @@ class AlbumsViewModel(
         load { pages.next() }
     }
 
-    fun retry() {
-        if (_uiState.value.loadedPages == null) loadFirstPage() else loadNextPage()
-    }
-
     fun alertMessageShown() {
         _uiState.update { it.copy(alertMessage = null) }
+    }
+
+    fun alertActionPerformed(action: AlertMessage.Action) {
+        when (action) {
+            AlertMessage.Action.RETRY -> retry()
+        }
+    }
+
+    private fun retry() {
+        if (_uiState.value.loadedPages == null) loadFirstPage() else loadNextPage()
     }
 
     private fun load(request: suspend () -> TaskResult<Paged<Album>>) {
@@ -61,7 +67,7 @@ class AlbumsViewModel(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            alertMessage = AlertMessage.String(result.message),
+                            alertMessage = AlertMessage.String(result.message, AlertMessage.Action.RETRY),
                         )
                     }
                 }

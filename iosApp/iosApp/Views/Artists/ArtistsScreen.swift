@@ -43,7 +43,7 @@ struct ArtistsScreen: View {
             .alertMessage(
                 uiState.alertMessage,
                 onShown: { viewModel.alertMessageShown() },
-                onRetry: { viewModel.retry() }
+                onAction: { viewModel.alertActionPerformed(action: $0) }
             )
         }
         .task {

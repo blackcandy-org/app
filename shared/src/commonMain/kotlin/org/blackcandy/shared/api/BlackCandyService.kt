@@ -65,6 +65,8 @@ interface BlackCandyService {
     suspend fun getAlbums(url: String? = null): ApiResponse<Paged<Album>>
 
     suspend fun getArtists(url: String? = null): ApiResponse<Paged<Artist>>
+
+    suspend fun getSongs(url: String? = null): ApiResponse<Paged<Song>>
 }
 
 class BlackCandyServiceImpl(
@@ -212,6 +214,8 @@ class BlackCandyServiceImpl(
     override suspend fun getAlbums(url: String?): ApiResponse<Paged<Album>> = getPaged(url ?: "albums") { getAlbums(it) }
 
     override suspend fun getArtists(url: String?): ApiResponse<Paged<Artist>> = getPaged(url ?: "artists") { getArtists(it) }
+
+    override suspend fun getSongs(url: String?): ApiResponse<Paged<Song>> = getPaged(url ?: "songs") { getSongs(it) }
 
     private suspend inline fun <reified T> getPaged(
         url: String,

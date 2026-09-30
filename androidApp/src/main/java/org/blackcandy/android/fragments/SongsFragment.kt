@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import dev.hotwire.navigation.destinations.HotwireDestinationDeepLink
 import dev.hotwire.navigation.fragments.HotwireFragment
-import org.blackcandy.android.compose.albums.AlbumsScreen
-import org.blackcandy.android.databinding.FragmentAlbumsBinding
+import org.blackcandy.android.compose.songs.SongsScreen
+import org.blackcandy.android.databinding.FragmentSongsBinding
 
-@HotwireDestinationDeepLink(uri = "hotwire://fragment/albums")
-class AlbumsFragment : HotwireFragment() {
+@HotwireDestinationDeepLink(uri = "hotwire://fragment/songs")
+class SongsFragment : HotwireFragment() {
     @Suppress("ktlint:standard:backing-property-naming")
-    private var _binding: FragmentAlbumsBinding? = null
+    private var _binding: FragmentSongsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,7 +21,7 @@ class AlbumsFragment : HotwireFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentAlbumsBinding.inflate(inflater, container, false)
+        _binding = FragmentSongsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,9 +31,9 @@ class AlbumsFragment : HotwireFragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.albumsComposeView.setContent {
+        binding.songsComposeView.setContent {
             Mdc3Theme {
-                AlbumsScreen(
+                SongsScreen(
                     canNavigateBack = !navigator.isAtStartDestination(),
                     navigateUp = { navigator.pop() },
                 )
