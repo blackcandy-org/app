@@ -49,7 +49,7 @@ import org.koin.androidx.compose.koinViewModel
 
 enum class PlayerRoute {
     FullPlayer,
-    Playlist,
+    CurrentPlaylist,
 }
 
 @Composable
@@ -126,12 +126,12 @@ fun PlayerScreenWideLayout(
             Column(
                 modifier = Modifier.weight(1f),
             ) {
-                PlaylistHeader(
+                CurrentPlaylistHeader(
                     tracksCount = uiState.musicState.playlist.size,
                     onClearAllButtonClicked = { viewModel.clearPlaylist() },
                 )
 
-                Playlist(
+                CurrentPlaylist(
                     modifier =
                         Modifier
                             .heightIn(max = dimensionResource(R.dimen.playlist_max_height)),
@@ -170,8 +170,8 @@ fun PlayerScreenCompactLayout(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            if (currentRoute == PlayerRoute.Playlist) {
-                PlaylistAppBar(
+            if (currentRoute == PlayerRoute.CurrentPlaylist) {
+                CurrentPlaylistAppBar(
                     canNavigateBack = navController.previousBackStackEntry != null,
                     navigateUp = { navController.navigateUp() },
                     onClearAllButtonClicked = { viewModel.clearPlaylist() },
@@ -210,12 +210,12 @@ fun PlayerScreenCompactLayout(
                     onSeek = { viewModel.seekTo(it) },
                     onModeSwitchButtonClicked = { viewModel.nextMode() },
                     onFavoriteButtonClicked = { viewModel.toggleFavorite() },
-                    onPlaylistButtonClicked = { navController.navigate(PlayerRoute.Playlist.name) },
+                    onPlaylistButtonClicked = { navController.navigate(PlayerRoute.CurrentPlaylist.name) },
                 )
             }
 
-            composable(route = PlayerRoute.Playlist.name) {
-                Playlist(
+            composable(route = PlayerRoute.CurrentPlaylist.name) {
+                CurrentPlaylist(
                     modifier =
                         Modifier
                             .padding(innerPadding),
@@ -237,7 +237,7 @@ fun PlayerScreenCompactLayout(
 }
 
 @Composable
-fun PlaylistHeader(
+fun CurrentPlaylistHeader(
     tracksCount: Int,
     onClearAllButtonClicked: () -> Unit,
 ) {
@@ -262,7 +262,7 @@ fun PlaylistHeader(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistAppBar(
+fun CurrentPlaylistAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     onClearAllButtonClicked: () -> Unit,

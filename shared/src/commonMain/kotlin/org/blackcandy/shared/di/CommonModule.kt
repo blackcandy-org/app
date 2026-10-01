@@ -26,6 +26,7 @@ import org.blackcandy.shared.data.ArtistRepository
 import org.blackcandy.shared.data.CurrentPlaylistRepository
 import org.blackcandy.shared.data.EncryptedDataSource
 import org.blackcandy.shared.data.FavoritePlaylistRepository
+import org.blackcandy.shared.data.PlaylistRepository
 import org.blackcandy.shared.data.PreferencesDataSource
 import org.blackcandy.shared.data.ServerAddressRepository
 import org.blackcandy.shared.data.SongRepository
@@ -39,6 +40,7 @@ import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MiniPlayerViewModel
 import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.blackcandy.shared.viewmodels.PlayerViewModel
+import org.blackcandy.shared.viewmodels.PlaylistsViewModel
 import org.blackcandy.shared.viewmodels.SongsViewModel
 import org.blackcandy.shared.viewmodels.WebViewModel
 import org.koin.core.module.dsl.viewModel
@@ -60,6 +62,7 @@ val commonModule =
         single { AlbumRepository(get()) }
         single { ArtistRepository(get()) }
         single { SongRepository(get()) }
+        single { PlaylistRepository(get()) }
 
         viewModel { MainViewModel(get(), get()) }
         viewModel { LoginViewModel(get(), get(), get()) }
@@ -70,6 +73,7 @@ val commonModule =
         viewModel { AlbumsViewModel(get()) }
         viewModel { ArtistsViewModel(get()) }
         viewModel { SongsViewModel(get(), get(), get()) }
+        viewModel { PlaylistsViewModel(get()) }
     }
 
 private fun provideHttpClient(

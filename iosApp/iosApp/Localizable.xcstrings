@@ -199,6 +199,17 @@
         }
       }
     },
+    "label.playlists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playlists"
+          }
+        }
+      }
+    },
     "label.retry" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -30,7 +30,7 @@ import sh.calvin.reorderable.ReorderableItemScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistItem(
+fun CurrentPlaylistItem(
     song: Song,
     isCurrent: Boolean,
     scope: ReorderableItemScope,

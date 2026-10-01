@@ -1,7 +1,7 @@
 import SwiftUI
 import sharedKit
 
-struct PlaylistItem: View {
+struct CurrentPlaylistItem: View {
     let song: Song
     let isCurrent: Bool
     let onClicked: ((Int64) -> Void)

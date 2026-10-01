@@ -23,6 +23,7 @@ import kotlinx.serialization.json.putJsonObject
 import org.blackcandy.shared.models.Album
 import org.blackcandy.shared.models.Artist
 import org.blackcandy.shared.models.AuthenticationResponse
+import org.blackcandy.shared.models.Playlist
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.models.SystemInfo
 import org.blackcandy.shared.models.User
@@ -67,6 +68,8 @@ interface BlackCandyService {
     suspend fun getArtists(url: String? = null): ApiResponse<Paged<Artist>>
 
     suspend fun getSongs(url: String? = null): ApiResponse<Paged<Song>>
+
+    suspend fun getPlaylists(url: String? = null): ApiResponse<Paged<Playlist>>
 }
 
 class BlackCandyServiceImpl(
@@ -216,6 +219,8 @@ class BlackCandyServiceImpl(
     override suspend fun getArtists(url: String?): ApiResponse<Paged<Artist>> = getPaged(url ?: "artists") { getArtists(it) }
 
     override suspend fun getSongs(url: String?): ApiResponse<Paged<Song>> = getPaged(url ?: "songs") { getSongs(it) }
+
+    override suspend fun getPlaylists(url: String?): ApiResponse<Paged<Playlist>> = getPaged(url ?: "playlists") { getPlaylists(it) }
 
     private suspend inline fun <reified T> getPaged(
         url: String,

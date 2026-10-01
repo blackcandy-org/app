@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.blackcandy.shared.data.EncryptedDataSource
-import org.blackcandy.shared.models.Playlist
+import org.blackcandy.shared.models.CurrentPlaylist
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.utils.BLACK_CANDY_USER_AGENT
 import platform.AVFoundation.AVPlayer
@@ -69,7 +69,7 @@ actual class MusicServiceController(
     private var playToEndObserver: NSObjectProtocol? = null
     private var timeObserver: Any? = null
 
-    private var playlist = Playlist()
+    private var playlist = CurrentPlaylist()
 
     private val hasCurrentItem get() = player.currentItem !== null
 

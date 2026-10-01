@@ -69,6 +69,14 @@
       "properties": {
         "uri": "hotwire://fragment/songs"
       }
+    },
+    {
+      "patterns": [
+        "^/playlists$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/playlists"
+      }
     }
   ]
 }
