@@ -45,6 +45,7 @@
     <string name="more">More</string>
     <string name="play_next">Play Next</string>
     <string name="play_last">Play Last</string>
+    <string name="playlists">Playlists</string>
     <string name="added_to_playlist">Added to playlist</string>
     <plurals name="tracks_count">
         <item quantity="one">%d track</item>

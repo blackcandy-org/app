@@ -34,6 +34,14 @@
       "properties": {
         "view_controller": "songs"
       }
+    },
+    {
+      "patterns": [
+        "^/playlists$"
+      ],
+      "properties": {
+        "view_controller": "playlists"
+      }
     }
   ]
 }

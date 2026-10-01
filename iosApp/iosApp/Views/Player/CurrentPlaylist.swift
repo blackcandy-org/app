@@ -1,7 +1,7 @@
 import SwiftUI
 import sharedKit
 
-struct PlayerPlaylist: View {
+struct CurrentPlaylist: View {
     let playlist: [Song]
     let currentSong: Song?
     let onItemClicked: ((Int64) -> Void)
@@ -11,7 +11,7 @@ struct PlayerPlaylist: View {
     var body: some View {
         List {
             ForEach(playlist) { song in
-                PlaylistItem(
+                CurrentPlaylistItem(
                     song: song,
                     isCurrent: song == currentSong,
                     onClicked: onItemClicked
