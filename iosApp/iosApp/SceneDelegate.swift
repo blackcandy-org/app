@@ -1,4 +1,5 @@
 import UIKit
+import HotwireNative
 import sharedKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,7 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 
         if isLoggedIn {
-            window.rootViewController = MainViewController(serverAddress: viewModel.serverAddress)
+            window.rootViewController = MainViewController(
+                serverAddress: viewModel.serverAddress,
+                navigatorDelegate: self
+            )
         } else {
             window.rootViewController = LoginViewController()
         }
@@ -55,5 +59,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+}
+
+// MARK: - NavigatorDelegate
+
+extension SceneDelegate: NavigatorDelegate {
+    func handle(proposal: VisitProposal, from navigator: Navigator) -> ProposalResult {
+        switch proposal.viewController {
+        case AlbumsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(AlbumsViewController())
+        case ArtistsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(ArtistsViewController())
+        case SongsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(SongsViewController())
+        case PlaylistsViewController.pathConfigurationIdentifier:
+            return .acceptCustom(PlaylistsViewController())
+        default:
+            return .accept
+        }
     }
 }

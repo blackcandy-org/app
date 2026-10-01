@@ -23,6 +23,28 @@
         }
       }
     },
+    "label.albums" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Albums"
+          }
+        }
+      }
+    },
+    "label.artists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artists"
+          }
+        }
+      }
+    },
     "label.connect" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -100,6 +122,17 @@
         }
       }
     },
+    "label.more" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
     "label.no_items" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -144,6 +177,39 @@
         }
       }
     },
+    "label.play_last" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play Last"
+          }
+        }
+      }
+    },
+    "label.play_next" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play Next"
+          }
+        }
+      }
+    },
+    "label.playlists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playlists"
+          }
+        }
+      }
+    },
     "label.retry" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -173,6 +239,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "label.songs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Songs"
           }
         }
       }

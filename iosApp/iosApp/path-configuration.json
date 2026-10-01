@@ -10,6 +10,38 @@
       "properties": {
         "context": "modal"
       }
+    },
+    {
+      "patterns": [
+        "^/albums$"
+      ],
+      "properties": {
+        "view_controller": "albums"
+      }
+    },
+    {
+      "patterns": [
+        "^/artists$"
+      ],
+      "properties": {
+        "view_controller": "artists"
+      }
+    },
+    {
+      "patterns": [
+        "^/songs$"
+      ],
+      "properties": {
+        "view_controller": "songs"
+      }
+    },
+    {
+      "patterns": [
+        "^/playlists$"
+      ],
+      "properties": {
+        "view_controller": "playlists"
+      }
     }
   ]
 }

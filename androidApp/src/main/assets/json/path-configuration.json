@@ -45,6 +45,38 @@
         "uri": "hotwire://fragment/web/bottom_sheet",
         "pull_to_refresh_enabled": false
       }
+    },
+    {
+      "patterns": [
+        "^/albums$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/albums"
+      }
+    },
+    {
+      "patterns": [
+        "^/artists$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/artists"
+      }
+    },
+    {
+      "patterns": [
+        "^/songs$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/songs"
+      }
+    },
+    {
+      "patterns": [
+        "^/playlists$"
+      ],
+      "properties": {
+        "uri": "hotwire://fragment/playlists"
+      }
     }
   ]
 }

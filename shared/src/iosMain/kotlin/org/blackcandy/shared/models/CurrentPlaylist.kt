@@ -1,6 +1,6 @@
 package org.blackcandy.shared.models
 
-class Playlist {
+internal class CurrentPlaylist {
     var isShuffled = false
     var orderedSongs: List<Song> = emptyList()
 
