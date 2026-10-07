@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -70,6 +71,10 @@ interface BlackCandyService {
     suspend fun getSongs(url: String? = null): ApiResponse<Paged<Song>>
 
     suspend fun getPlaylists(url: String? = null): ApiResponse<Paged<Playlist>>
+
+    suspend fun getRecentlyPlayedAlbums(): ApiResponse<List<Album>>
+
+    suspend fun getRecentlyAddedAlbums(): ApiResponse<List<Album>>
 }
 
 class BlackCandyServiceImpl(
@@ -221,6 +226,21 @@ class BlackCandyServiceImpl(
     override suspend fun getSongs(url: String?): ApiResponse<Paged<Song>> = getPaged(url ?: "songs") { getSongs(it) }
 
     override suspend fun getPlaylists(url: String?): ApiResponse<Paged<Playlist>> = getPaged(url ?: "playlists") { getPlaylists(it) }
+
+    override suspend fun getRecentlyPlayedAlbums(): ApiResponse<List<Album>> =
+        handleResponse {
+            client.get("my/recently_played").body()
+        }
+
+    override suspend fun getRecentlyAddedAlbums(): ApiResponse<List<Album>> =
+        handleResponse {
+            client
+                .get("albums") {
+                    parameter("sort", "created_at")
+                    parameter("sort_direction", "desc")
+                    parameter("limit", 10)
+                }.body()
+        }
 
     private suspend inline fun <reified T> getPaged(
         url: String,

@@ -42,6 +42,15 @@
       "properties": {
         "view_controller": "playlists"
       }
+    },
+    {
+      "patterns": [
+        "^$",
+        "^/$"
+      ],
+      "properties": {
+        "view_controller": "home"
+      }
     }
   ]
 }

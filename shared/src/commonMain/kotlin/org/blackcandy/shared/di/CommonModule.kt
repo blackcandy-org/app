@@ -35,6 +35,7 @@ import org.blackcandy.shared.data.UserRepository
 import org.blackcandy.shared.utils.BLACK_CANDY_USER_AGENT
 import org.blackcandy.shared.viewmodels.AlbumsViewModel
 import org.blackcandy.shared.viewmodels.ArtistsViewModel
+import org.blackcandy.shared.viewmodels.HomeViewModel
 import org.blackcandy.shared.viewmodels.LoginViewModel
 import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MiniPlayerViewModel
@@ -74,6 +75,7 @@ val commonModule =
         viewModel { ArtistsViewModel(get()) }
         viewModel { SongsViewModel(get(), get(), get()) }
         viewModel { PlaylistsViewModel(get()) }
+        viewModel { HomeViewModel(get()) }
     }
 
 private fun provideHttpClient(

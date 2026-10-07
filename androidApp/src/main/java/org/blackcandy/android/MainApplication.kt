@@ -17,6 +17,7 @@ import org.blackcandy.android.bridge.SongsComponent
 import org.blackcandy.android.bridge.ThemeComponent
 import org.blackcandy.android.fragments.AlbumsFragment
 import org.blackcandy.android.fragments.ArtistsFragment
+import org.blackcandy.android.fragments.HomeFragment
 import org.blackcandy.android.fragments.PlaylistsFragment
 import org.blackcandy.android.fragments.SongsFragment
 import org.blackcandy.android.fragments.web.WebBottomSheetFragment
@@ -64,6 +65,7 @@ class MainApplication : Application() {
             ArtistsFragment::class,
             SongsFragment::class,
             PlaylistsFragment::class,
+            HomeFragment::class,
         )
 
         Hotwire.registerBridgeComponents(

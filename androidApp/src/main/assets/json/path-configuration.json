@@ -19,7 +19,7 @@
         "^/$"
       ],
       "properties": {
-        "uri": "hotwire://fragment/web/home",
+        "uri": "hotwire://fragment/home",
         "presentation": "replace_root"
       }
     },
