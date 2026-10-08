@@ -1,7 +1,9 @@
 package org.blackcandy.android
 
-import androidx.annotation.IdRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -16,10 +18,11 @@ import org.blackcandy.android.compose.playlists.PlaylistsScreen
 import org.blackcandy.android.compose.songs.SongsScreen
 
 enum class MainTab(
-    @IdRes val menuItemId: Int,
+    @StringRes val titleResId: Int,
+    @DrawableRes val iconResId: Int,
 ) {
-    HomeTab(R.id.nav_menu_home),
-    LibraryTab(R.id.nav_menu_library),
+    HomeTab(R.string.home, R.drawable.baseline_home_24),
+    LibraryTab(R.string.library, R.drawable.baseline_library_music_24),
 }
 
 enum class MainRoute {
@@ -32,10 +35,14 @@ enum class MainRoute {
 }
 
 @Composable
-fun MainNavHost(navController: NavHostController) {
+fun MainNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+) {
     NavHost(
         navController = navController,
         startDestination = MainTab.HomeTab.name,
+        modifier = modifier,
     ) {
         navigation(route = MainTab.HomeTab.name, startDestination = MainRoute.Home.name) {
             composable(MainRoute.Home.name) {

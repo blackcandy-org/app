@@ -2,7 +2,6 @@ package org.blackcandy.android.compose.artists
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -70,8 +69,6 @@ fun ArtistsScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        // The activity already keeps the content clear of the bottom bars and display cutouts.
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
         LazyVerticalGrid(
             state = gridState,

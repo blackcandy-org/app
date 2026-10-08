@@ -30,8 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -183,9 +181,6 @@ fun PlayerScreenCompactLayout(
         NavHost(
             navController = navController,
             startDestination = PlayerRoute.FullPlayer.name,
-            modifier =
-                Modifier
-                    .nestedScroll(rememberNestedScrollInteropConnection()),
         ) {
             composable(route = PlayerRoute.FullPlayer.name) {
                 FullPlayer(
