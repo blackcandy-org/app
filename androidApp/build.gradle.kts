@@ -46,7 +46,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 }
@@ -65,7 +64,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.annotation.experimental)
@@ -73,9 +71,6 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.datasource.okhttp)
-
-    implementation(libs.google.material)
-    implementation(libs.google.accompanist.themeadapter.material3)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.koin.androidx.compose)
@@ -86,8 +81,6 @@ dependencies {
     implementation(libs.ktor.client.auth)
     implementation(libs.coil.compose)
     implementation(libs.reorderable)
-    implementation(libs.hotwire.core)
-    implementation(libs.hotwire.navigation.fragments)
 
     implementation(project(":shared"))
 

@@ -1,5 +1,4 @@
 import UIKit
-import HotwireNative
 import sharedKit
 
 @main
@@ -7,8 +6,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         KoinHelperKt.doInitKoin()
-
-        configureHotwire()
 
         return true
     }
@@ -25,31 +22,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
-
-    private func configureHotwire() {
-        Hotwire.config.applicationUserAgentPrefix = "\(BLACK_CANDY_USER_AGENT);"
-
-        Hotwire.loadPathConfiguration(from: [
-            .file(Bundle.main.url(forResource: "path-configuration", withExtension: "json")!)
-        ])
-
-        Hotwire.config.defaultViewController = { url in
-            WebViewController(url: url)
-        }
-
-        Hotwire.config.makeCustomErrorView = { error, handler in
-            CustomErrorScreen(error: error, handler: handler)
-        }
-
-        Hotwire.registerBridgeComponents([
-            AccountComponent.self,
-            SearchComponent.self,
-            ThemeComponent.self,
-            FlashComponent.self,
-            AlbumComponent.self,
-            PlaylistComponent.self,
-            SongsComponent.self
-        ])
     }
 }

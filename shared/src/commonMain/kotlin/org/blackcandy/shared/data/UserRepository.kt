@@ -7,7 +7,6 @@ import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.flow.Flow
 import org.blackcandy.shared.api.BlackCandyService
 import org.blackcandy.shared.models.User
-import org.blackcandy.shared.utils.Cookies
 import org.blackcandy.shared.utils.TaskResult
 
 class UserRepository(
@@ -19,12 +18,10 @@ class UserRepository(
     suspend fun login(
         email: String,
         password: String,
-    ): TaskResult<String> {
+    ): TaskResult<Unit> {
         try {
             val response = service.createAuthentication(email, password).orThrow()
-            val serverAddress = preferencesDataSource.getServerAddress()
 
-            Cookies.update(serverAddress, response.cookies)
             preferencesDataSource.updateCurrentUser(response.user)
             encryptedDataSource.updateApiToken(response.token)
 
@@ -36,7 +33,7 @@ class UserRepository(
                 .first()
                 .clearToken()
 
-            return TaskResult.Success(serverAddress)
+            return TaskResult.Success(Unit)
         } catch (e: Exception) {
             return TaskResult.Failure(e.message)
         }
@@ -45,7 +42,6 @@ class UserRepository(
     suspend fun logout() {
         service.removeAuthentication()
         encryptedDataSource.removeApiToken()
-        Cookies.clean()
         preferencesDataSource.updateCurrentUser(null)
     }
 

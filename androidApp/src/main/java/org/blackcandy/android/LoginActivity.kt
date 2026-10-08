@@ -7,9 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import kotlinx.coroutines.launch
 import org.blackcandy.android.compose.login.LoginScreen
+import org.blackcandy.android.compose.theme.BlackCandyTheme
 import org.blackcandy.shared.viewmodels.LoginViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,7 +33,7 @@ class LoginActivity : ComponentActivity() {
         }
 
         setContent {
-            Mdc3Theme {
+            BlackCandyTheme {
                 LoginScreen(viewModel = viewModel)
             }
         }

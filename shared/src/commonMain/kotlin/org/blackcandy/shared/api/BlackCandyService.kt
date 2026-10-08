@@ -4,13 +4,13 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.client.statement.request
-import io.ktor.http.HttpHeaders
 import io.ktor.http.URLBuilder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
@@ -20,7 +20,10 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
+import org.blackcandy.shared.models.Album
+import org.blackcandy.shared.models.Artist
 import org.blackcandy.shared.models.AuthenticationResponse
+import org.blackcandy.shared.models.Playlist
 import org.blackcandy.shared.models.Song
 import org.blackcandy.shared.models.SystemInfo
 import org.blackcandy.shared.models.User
@@ -59,6 +62,18 @@ interface BlackCandyService {
         currentSongId: Long?,
         location: String?,
     ): ApiResponse<Song>
+
+    suspend fun getAlbums(url: String? = null): ApiResponse<Paged<Album>>
+
+    suspend fun getArtists(url: String? = null): ApiResponse<Paged<Artist>>
+
+    suspend fun getSongs(url: String? = null): ApiResponse<Paged<Song>>
+
+    suspend fun getPlaylists(url: String? = null): ApiResponse<Paged<Playlist>>
+
+    suspend fun getRecentlyPlayedAlbums(): ApiResponse<List<Album>>
+
+    suspend fun getRecentlyAddedAlbums(): ApiResponse<List<Album>>
 }
 
 class BlackCandyServiceImpl(
@@ -103,7 +118,6 @@ class BlackCandyServiceImpl(
             val id = userElement.jsonObject["id"]?.jsonPrimitive?.long!!
             val userEmail = userElement.jsonObject["email"]?.jsonPrimitive.toString()
             val isAdmin = userElement.jsonObject["is_admin"]?.jsonPrimitive?.boolean!!
-            val cookies = response.headers.getAll(HttpHeaders.SetCookie) ?: emptyList()
 
             AuthenticationResponse(
                 token = token,
@@ -113,7 +127,6 @@ class BlackCandyServiceImpl(
                         email = userEmail,
                         isAdmin = isAdmin,
                     ),
-                cookies = cookies,
             )
         }
 
@@ -201,6 +214,39 @@ class BlackCandyServiceImpl(
                         },
                     )
                 }.body()
+        }
+
+    override suspend fun getAlbums(url: String?): ApiResponse<Paged<Album>> = getPaged(url ?: "albums") { getAlbums(it) }
+
+    override suspend fun getArtists(url: String?): ApiResponse<Paged<Artist>> = getPaged(url ?: "artists") { getArtists(it) }
+
+    override suspend fun getSongs(url: String?): ApiResponse<Paged<Song>> = getPaged(url ?: "songs") { getSongs(it) }
+
+    override suspend fun getPlaylists(url: String?): ApiResponse<Paged<Playlist>> = getPaged(url ?: "playlists") { getPlaylists(it) }
+
+    override suspend fun getRecentlyPlayedAlbums(): ApiResponse<List<Album>> =
+        handleResponse {
+            client.get("my/recently_played").body()
+        }
+
+    override suspend fun getRecentlyAddedAlbums(): ApiResponse<List<Album>> =
+        handleResponse {
+            client
+                .get("albums") {
+                    parameter("sort", "created_at")
+                    parameter("sort_direction", "desc")
+                    parameter("limit", 10)
+                }.body()
+        }
+
+    private suspend inline fun <reified T> getPaged(
+        url: String,
+        noinline loadPage: suspend (String) -> ApiResponse<Paged<T>>,
+    ): ApiResponse<Paged<T>> =
+        handleResponse {
+            val response = client.get(url)
+
+            Paged.from(items = response.body<List<T>>(), headers = response.headers, loadPage = loadPage)
         }
 
     private suspend fun <T> handleResponse(request: suspend () -> T): ApiResponse<T> =

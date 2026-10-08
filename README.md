@@ -19,11 +19,9 @@ For Android app, you can also download APK from [GitHub Release](https://github.
 
 ## Development
 
-Black Candy mobile apps are built with **Kotlin Multiplatform (KMP)** and **Hotwire Native** 
+Black Candy mobile apps are built with **Kotlin Multiplatform (KMP)**, with native UI in **Jetpack Compose** on Android and **SwiftUI** on iOS.
 
 **Kotlin Multiplatform (KMP)** is used to share business logic across Android and iOS apps from a single Kotlin codebase.
-
-**Hotwire Native** is used to render server-driven screens inside the native mobile apps 
 
 For setup dev environment, please check the guide from KMP:
 https://kotlinlang.org/docs/multiplatform/quickstart.html

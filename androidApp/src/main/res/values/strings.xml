@@ -38,6 +38,16 @@
     <string name="empty_playlist_indication">Nothing to play here</string>
     <string name="drag_handle">Drag Handle</string>
     <string name="retry">Retry</string>
+    <string name="albums">Albums</string>
+    <string name="artists">Artists</string>
+    <string name="artist_image">Artist Image</string>
+    <string name="songs">Songs</string>
+    <string name="more">More</string>
+    <string name="play_next">Play Next</string>
+    <string name="play_last">Play Last</string>
+    <string name="playlists">Playlists</string>
+    <string name="recently_played">Recently Played</string>
+    <string name="recently_added">Recently Added</string>
     <string name="added_to_playlist">Added to playlist</string>
     <plurals name="tracks_count">
         <item quantity="one">%d track</item>
