@@ -72,9 +72,6 @@ dependencies {
     implementation(libs.androidx.media3.session)
     implementation(libs.androidx.media3.datasource.okhttp)
 
-    implementation(libs.google.material)
-    implementation(libs.google.accompanist.themeadapter.material3)
-
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.koin.androidx.compose)
     implementation(libs.ktor.client.core)

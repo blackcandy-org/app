@@ -12,8 +12,6 @@ androidxJunit = "1.1.5"
 androidxEspresso = "3.5.1"
 annotationExperimental = "1.5.1"
 coilCompose = "2.5.0"
-googleAccompanistThemeadapterMaterial3 = "0.30.1"
-googleMaterial = "1.12.0"
 junit = "4.13.2"
 koin = "4.0.0"
 kotlinxCoroutinesTest = "1.7.3"
@@ -54,8 +52,6 @@ androidx-security-crypto = { group = "androidx.security", name = "security-crypt
 androidx-window = { group = "androidx.window", name = "window", version.ref = "androidxWindow" }
 androidx-window-core = { group = "androidx.window", name = "window-core", version.ref = "androidxWindow" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
-google-accompanist-themeadapter-material3 = { group = "com.google.accompanist", name = "accompanist-themeadapter-material3", version.ref = "googleAccompanistThemeadapterMaterial3" }
-google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }

@@ -10,8 +10,8 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import kotlinx.coroutines.launch
+import org.blackcandy.android.compose.theme.BlackCandyTheme
 import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         musicServiceViewModel.setupMusicServiceController()
 
         setContent {
-            Mdc3Theme {
+            BlackCandyTheme {
                 MainScreen(windowSizeClass = calculateWindowSizeClass(this))
             }
         }
