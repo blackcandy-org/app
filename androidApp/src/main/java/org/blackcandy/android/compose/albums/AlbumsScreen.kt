@@ -34,7 +34,6 @@ private const val LOAD_MORE_THRESHOLD = 6
 
 @Composable
 fun AlbumsScreen(
-    canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: AlbumsViewModel = koinViewModel(),
@@ -67,7 +66,6 @@ fun AlbumsScreen(
         topBar = {
             ScreenAppBar(
                 title = stringResource(R.string.albums),
-                canNavigateBack = canNavigateBack,
                 navigateUp = navigateUp,
             )
         },

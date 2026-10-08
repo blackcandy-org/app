@@ -47,7 +47,6 @@ private const val LOAD_MORE_THRESHOLD = 6
 
 @Composable
 fun SongsScreen(
-    canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: SongsViewModel = koinViewModel(),
@@ -80,7 +79,6 @@ fun SongsScreen(
         topBar = {
             ScreenAppBar(
                 title = stringResource(R.string.songs),
-                canNavigateBack = canNavigateBack,
                 navigateUp = navigateUp,
             )
         },

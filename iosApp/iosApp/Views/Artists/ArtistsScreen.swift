@@ -49,5 +49,6 @@ struct ArtistsScreen: View {
         .task {
             viewModel.loadFirstPage()
         }
+        .navigationTitle("label.artists")
     }
 }

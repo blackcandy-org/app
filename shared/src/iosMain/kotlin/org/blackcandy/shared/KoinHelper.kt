@@ -10,7 +10,6 @@ import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.blackcandy.shared.viewmodels.PlayerViewModel
 import org.blackcandy.shared.viewmodels.PlaylistsViewModel
 import org.blackcandy.shared.viewmodels.SongsViewModel
-import org.blackcandy.shared.viewmodels.WebViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.context.startKoin
@@ -25,8 +24,6 @@ class KoinHelper : KoinComponent {
     fun getMainViewModel(): MainViewModel = get()
 
     fun getLoginViewModel(): LoginViewModel = get()
-
-    fun getWebViewModel(): WebViewModel = get()
 
     fun getPlayerViewModel(): PlayerViewModel = get()
 

@@ -1,27 +1,45 @@
 import SwiftUI
 
 struct LibraryScreen: View {
-    let navigateTo: (String) -> Void
-
     var body: some View {
         List {
-            LibraryItem(title: "label.albums", systemImage: "square.stack") { navigateTo("/albums") }
-            LibraryItem(title: "label.artists", systemImage: "music.mic") { navigateTo("/artists") }
-            LibraryItem(title: "label.songs", systemImage: "music.note") { navigateTo("/songs") }
-            LibraryItem(title: "label.playlists", systemImage: "music.note.list") { navigateTo("/playlists") }
+            NavigationLink(value: Route.albums) {
+                Label("label.albums", systemImage: "square.stack")
+            }
+
+            NavigationLink(value: Route.artists) {
+                Label("label.artists", systemImage: "music.mic")
+            }
+
+            NavigationLink(value: Route.songs) {
+                Label("label.songs", systemImage: "music.note")
+            }
+
+            NavigationLink(value: Route.playlists) {
+                Label("label.playlists", systemImage: "music.note.list")
+            }
+        }
+        .navigationTitle("label.library")
+        .navigationDestination(for: Route.self) { route in
+            switch route {
+            case .albums:
+                AlbumsScreen()
+            case .artists:
+                ArtistsScreen()
+            case .songs:
+                SongsScreen()
+            case .playlists:
+                PlaylistsScreen()
+            }
         }
     }
 }
 
-private struct LibraryItem: View {
-    let title: LocalizedStringKey
-    let systemImage: String
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-        }
-        .foregroundStyle(.primary)
+extension LibraryScreen {
+    enum Route: Hashable {
+        case albums
+        case artists
+        case songs
+        case playlists
     }
 }

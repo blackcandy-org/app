@@ -50,5 +50,6 @@ struct AlbumsScreen: View {
         .task {
             viewModel.loadFirstPage()
         }
+        .navigationTitle("label.albums")
     }
 }

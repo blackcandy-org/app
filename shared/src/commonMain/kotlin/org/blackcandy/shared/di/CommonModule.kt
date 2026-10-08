@@ -43,7 +43,6 @@ import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.blackcandy.shared.viewmodels.PlayerViewModel
 import org.blackcandy.shared.viewmodels.PlaylistsViewModel
 import org.blackcandy.shared.viewmodels.SongsViewModel
-import org.blackcandy.shared.viewmodels.WebViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -65,11 +64,10 @@ val commonModule =
         single { SongRepository(get()) }
         single { PlaylistRepository(get()) }
 
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { MainViewModel(get()) }
         viewModel { LoginViewModel(get(), get(), get()) }
         viewModel { MiniPlayerViewModel(get()) }
         viewModel { PlayerViewModel(get(), get(), get()) }
-        viewModel { WebViewModel(get(), get(), get()) }
         viewModel { MusicServiceViewModel(get(), get()) }
         viewModel { AlbumsViewModel(get()) }
         viewModel { ArtistsViewModel(get()) }

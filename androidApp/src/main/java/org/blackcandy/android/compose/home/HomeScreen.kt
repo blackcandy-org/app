@@ -34,8 +34,6 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: HomeViewModel = koinViewModel(),
 ) {
@@ -47,11 +45,7 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            ScreenAppBar(
-                title = stringResource(R.string.home),
-                canNavigateBack = canNavigateBack,
-                navigateUp = navigateUp,
-            )
+            ScreenAppBar(title = stringResource(R.string.home))
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         // The activity already keeps the content clear of the bottom bars and display cutouts.

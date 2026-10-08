@@ -21,17 +21,14 @@ import org.blackcandy.android.compose.ScreenAppBar
 
 @Composable
 fun LibraryScreen(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    navigateTo: (String) -> Unit,
+    navigateToAlbums: () -> Unit,
+    navigateToArtists: () -> Unit,
+    navigateToSongs: () -> Unit,
+    navigateToPlaylists: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            ScreenAppBar(
-                title = stringResource(R.string.library),
-                canNavigateBack = canNavigateBack,
-                navigateUp = navigateUp,
-            )
+            ScreenAppBar(title = stringResource(R.string.library))
         },
         // The activity already keeps the content clear of the bottom bars and display cutouts.
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -42,10 +39,10 @@ fun LibraryScreen(
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState()),
         ) {
-            LibraryItem(R.string.albums, R.drawable.baseline_album_24) { navigateTo("/albums") }
-            LibraryItem(R.string.artists, R.drawable.baseline_mic_24) { navigateTo("/artists") }
-            LibraryItem(R.string.songs, R.drawable.baseline_music_note_24) { navigateTo("/songs") }
-            LibraryItem(R.string.playlists, R.drawable.baseline_queue_music_24) { navigateTo("/playlists") }
+            LibraryItem(R.string.albums, R.drawable.baseline_album_24, navigateToAlbums)
+            LibraryItem(R.string.artists, R.drawable.baseline_mic_24, navigateToArtists)
+            LibraryItem(R.string.songs, R.drawable.baseline_music_note_24, navigateToSongs)
+            LibraryItem(R.string.playlists, R.drawable.baseline_queue_music_24, navigateToPlaylists)
         }
     }
 }

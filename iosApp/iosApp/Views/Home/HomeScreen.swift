@@ -22,6 +22,7 @@ struct HomeScreen: View {
         .task {
             viewModel.load()
         }
+        .navigationTitle("label.home")
     }
 }
 

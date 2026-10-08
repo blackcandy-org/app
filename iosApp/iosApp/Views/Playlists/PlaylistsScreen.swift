@@ -38,6 +38,7 @@ struct PlaylistsScreen: View {
         .task {
             viewModel.loadFirstPage()
         }
+        .navigationTitle("label.playlists")
     }
 }
 

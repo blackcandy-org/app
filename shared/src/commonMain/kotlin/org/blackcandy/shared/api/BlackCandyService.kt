@@ -11,7 +11,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.client.statement.request
-import io.ktor.http.HttpHeaders
 import io.ktor.http.URLBuilder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
@@ -119,7 +118,6 @@ class BlackCandyServiceImpl(
             val id = userElement.jsonObject["id"]?.jsonPrimitive?.long!!
             val userEmail = userElement.jsonObject["email"]?.jsonPrimitive.toString()
             val isAdmin = userElement.jsonObject["is_admin"]?.jsonPrimitive?.boolean!!
-            val cookies = response.headers.getAll(HttpHeaders.SetCookie) ?: emptyList()
 
             AuthenticationResponse(
                 token = token,
@@ -129,7 +127,6 @@ class BlackCandyServiceImpl(
                         email = userEmail,
                         isAdmin = isAdmin,
                     ),
-                cookies = cookies,
             )
         }
 

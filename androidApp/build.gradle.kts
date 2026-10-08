@@ -65,7 +65,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.security.crypto)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.annotation.experimental)
@@ -86,8 +85,6 @@ dependencies {
     implementation(libs.ktor.client.auth)
     implementation(libs.coil.compose)
     implementation(libs.reorderable)
-    implementation(libs.hotwire.core)
-    implementation(libs.hotwire.navigation.fragments)
 
     implementation(project(":shared"))
 

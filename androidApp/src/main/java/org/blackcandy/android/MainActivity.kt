@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.DisposableEffect
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -18,17 +20,13 @@ import androidx.core.view.updateMargins
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationBarView
-import dev.hotwire.navigation.activities.HotwireActivity
-import dev.hotwire.navigation.navigator.NavigatorConfiguration
-import dev.hotwire.navigation.tabs.HotwireNavigationController
-import dev.hotwire.navigation.tabs.HotwireTab
-import dev.hotwire.navigation.tabs.navigatorConfigurations
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.blackcandy.android.compose.player.MiniPlayer
 import org.blackcandy.android.compose.player.PlayerScreen
 import org.blackcandy.android.databinding.ActivityMainBinding
@@ -36,16 +34,13 @@ import org.blackcandy.shared.viewmodels.MainViewModel
 import org.blackcandy.shared.viewmodels.MusicServiceViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : HotwireActivity() {
-    private lateinit var navigationController: HotwireNavigationController
-
+class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
 
     private val musicServiceViewModel: MusicServiceViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var playerBottomSheetBehavior: BottomSheetBehavior<FrameLayout>
-    private lateinit var mainTabs: List<HotwireTab>
 
     private val playerBottomSheetCallback by lazy {
         object : BottomSheetBehavior.BottomSheetCallback() {
@@ -79,7 +74,7 @@ class MainActivity : HotwireActivity() {
         setContentView(binding.root)
 
         setupLayout()
-        setupBottomTabs()
+        setupNavigation()
         setupPlayerBottomSheet()
         setupMiniPlayer()
         setupPlayerScreen()
@@ -107,11 +102,6 @@ class MainActivity : HotwireActivity() {
         ) {
             setupSlideTransition(1f)
         }
-    }
-
-    override fun navigatorConfigurations(): List<NavigatorConfiguration> {
-        mainTabs = buildMainTabs(viewModel.serverAddress)
-        return mainTabs.navigatorConfigurations
     }
 
     private fun requireLogin(): Boolean {
@@ -161,11 +151,8 @@ class MainActivity : HotwireActivity() {
                     else -> 0
                 }
 
-            val homeContainerLayoutParams = binding.homeContainer.layoutParams as MarginLayoutParams
-            val libraryContainerLayoutParams = binding.libraryContainer.layoutParams as MarginLayoutParams
-
-            homeContainerLayoutParams.updateMargins(bottom = containerMarginSize)
-            libraryContainerLayoutParams.updateMargins(bottom = containerMarginSize)
+            val mainComposeViewLayoutParams = binding.mainComposeView.layoutParams as MarginLayoutParams
+            mainComposeViewLayoutParams.updateMargins(bottom = containerMarginSize)
 
             val playerBottomSheetPeekHeight =
                 if (binding.bottomNav != null) {
@@ -241,14 +228,36 @@ class MainActivity : HotwireActivity() {
         binding.playerScreenComposeView.alpha = (slideOffset - transitionOffsetThreshold) / transitionOffsetThreshold
     }
 
-    private fun setupBottomTabs() {
+    private fun setupNavigation() {
         val navigationView: NavigationBarView =
             findViewById(R.id.bottom_nav) ?: findViewById(R.id.rail_nav)
 
-        navigationController = HotwireNavigationController(this, navigationView)
-        navigationController.load(mainTabs, viewModel.selectedTabIndex)
-        navigationController.setOnTabSelectedListener { index, _ ->
-            viewModel.selectedTabIndex = index
+        binding.mainComposeView.setContent {
+            val navController = rememberNavController()
+
+            // The bottom bar and the rail are views, so they're kept in sync with the NavController here.
+            DisposableEffect(navController) {
+                navigationView.setOnItemSelectedListener { menuItem ->
+                    navController.navigateToTab(MainTab.entries.first { it.menuItemId == menuItem.itemId })
+                    true
+                }
+
+                val listener =
+                    NavController.OnDestinationChangedListener { _, destination, _ ->
+                        val tab = MainTab.entries.first { tab -> destination.hierarchy.any { it.route == tab.name } }
+                        navigationView.menu.findItem(tab.menuItemId).isChecked = true
+                    }
+
+                navController.addOnDestinationChangedListener(listener)
+
+                onDispose {
+                    navController.removeOnDestinationChangedListener(listener)
+                }
+            }
+
+            Mdc3Theme {
+                MainNavHost(navController = navController)
+            }
         }
     }
 

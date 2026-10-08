@@ -15,13 +15,12 @@ import org.blackcandy.android.R
 @Composable
 fun ScreenAppBar(
     title: String,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
+    navigateUp: (() -> Unit)? = null,
 ) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            if (canNavigateBack) {
+            if (navigateUp != null) {
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
