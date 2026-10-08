@@ -77,6 +77,8 @@ extension SceneDelegate: NavigatorDelegate {
             return .acceptCustom(PlaylistsViewController())
         case HomeViewController.pathConfigurationIdentifier:
             return .acceptCustom(HomeViewController())
+        case LibraryViewController.pathConfigurationIdentifier:
+            return .acceptCustom(LibraryViewController(url: proposal.url, navigator: navigator))
         default:
             return .accept
         }

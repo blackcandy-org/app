@@ -51,6 +51,14 @@
       "properties": {
         "view_controller": "home"
       }
+    },
+    {
+      "patterns": [
+        "^/library$"
+      ],
+      "properties": {
+        "view_controller": "library"
+      }
     }
   ]
 }

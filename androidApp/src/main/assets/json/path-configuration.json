@@ -28,7 +28,7 @@
         "^/library$"
       ],
       "properties": {
-        "uri": "hotwire://fragment/web/library",
+        "uri": "hotwire://fragment/library",
         "presentation": "replace_root"
       }
     },
