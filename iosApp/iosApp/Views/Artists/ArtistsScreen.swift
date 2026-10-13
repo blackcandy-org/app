@@ -2,7 +2,7 @@ import SwiftUI
 import sharedKit
 
 struct ArtistsScreen: View {
-    private let viewModel: ArtistsViewModel = KoinHelper().getArtistsViewModel()
+    @State private var viewModel: ArtistsViewModel = KoinHelper().getArtistsViewModel()
 
     private let columns = [
         GridItem(

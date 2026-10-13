@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import org.blackcandy.android.R
 import org.blackcandy.shared.models.Song
 import sh.calvin.reorderable.ReorderableItem
-import sh.calvin.reorderable.rememberReorderableLazyColumnState
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -43,7 +43,7 @@ fun CurrentPlaylist(
         val (playlistState, setPlaylistState) = remember(playlist) { mutableStateOf(playlist) }
         val lazyListState = rememberLazyListState()
         val reorderableLazyColumnState =
-            rememberReorderableLazyColumnState(lazyListState) { from, to ->
+            rememberReorderableLazyListState(lazyListState) { from, to ->
                 setPlaylistState(
                     playlistState.toMutableList().apply {
                         add(to.index, removeAt(from.index))

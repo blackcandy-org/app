@@ -2,7 +2,7 @@ import SwiftUI
 import sharedKit
 
 struct PlaylistsScreen: View {
-    private let viewModel: PlaylistsViewModel = KoinHelper().getPlaylistsViewModel()
+    @State private var viewModel: PlaylistsViewModel = KoinHelper().getPlaylistsViewModel()
 
     var body: some View {
         Observing(viewModel.uiState) { uiState in

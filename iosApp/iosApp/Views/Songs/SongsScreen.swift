@@ -3,7 +3,7 @@ import AlertKit
 import sharedKit
 
 struct SongsScreen: View {
-    private let viewModel: SongsViewModel = KoinHelper().getSongsViewModel()
+    @State private var viewModel: SongsViewModel = KoinHelper().getSongsViewModel()
 
     var body: some View {
         Observing(viewModel.uiState) { uiState in

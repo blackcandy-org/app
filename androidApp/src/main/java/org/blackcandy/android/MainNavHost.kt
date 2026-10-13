@@ -1,14 +1,19 @@
 package org.blackcandy.android
 
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import org.blackcandy.android.compose.albums.AlbumsScreen
 import org.blackcandy.android.compose.artists.ArtistsScreen
@@ -37,8 +42,12 @@ enum class MainRoute {
 @Composable
 fun MainNavHost(
     navController: NavHostController,
+    usesExpandedNavigationRail: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
+    val navigateUp: (() -> Unit)? = if (usesExpandedNavigationRail) null else navController::navigateUp
+
     NavHost(
         navController = navController,
         startDestination = MainTab.HomeTab.name,
@@ -61,20 +70,30 @@ fun MainNavHost(
             }
 
             composable(MainRoute.Albums.name) {
-                AlbumsScreen(navigateUp = { navController.navigateUp() })
+                AlbumsScreen(navigateUp = navigateUp)
             }
 
             composable(MainRoute.Artists.name) {
-                ArtistsScreen(navigateUp = { navController.navigateUp() })
+                ArtistsScreen(navigateUp = navigateUp)
             }
 
             composable(MainRoute.Songs.name) {
-                SongsScreen(navigateUp = { navController.navigateUp() })
+                SongsScreen(navigateUp = navigateUp)
             }
 
             composable(MainRoute.Playlists.name) {
-                PlaylistsScreen(navigateUp = { navController.navigateUp() })
+                PlaylistsScreen(navigateUp = navigateUp)
             }
+        }
+    }
+
+    BackHandler(enabled = usesExpandedNavigationRail && currentDestination.isInTab(MainTab.LibraryTab)) {
+        navController.navigateToTab(MainTab.HomeTab)
+    }
+
+    LaunchedEffect(usesExpandedNavigationRail) {
+        if (usesExpandedNavigationRail && navController.currentDestination?.route == MainRoute.Library.name) {
+            navController.navigateToLibraryItem(MainRoute.Albums)
         }
     }
 }
@@ -89,3 +108,12 @@ fun NavController.navigateToTab(tab: MainTab) {
         restoreState = true
     }
 }
+
+fun NavController.navigateToLibraryItem(route: MainRoute) {
+    navigateToTab(MainTab.LibraryTab)
+    navigate(route.name) {
+        popUpTo(MainRoute.Library.name)
+    }
+}
+
+fun NavDestination?.isInTab(tab: MainTab): Boolean = this?.hierarchy?.any { it.route == tab.name } == true

@@ -2,7 +2,7 @@ import SwiftUI
 import sharedKit
 
 struct HomeScreen: View {
-    private let viewModel: HomeViewModel = KoinHelper().getHomeViewModel()
+    @State private var viewModel: HomeViewModel = KoinHelper().getHomeViewModel()
 
     var body: some View {
         Observing(viewModel.uiState) { uiState in

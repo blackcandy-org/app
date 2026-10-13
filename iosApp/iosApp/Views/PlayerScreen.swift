@@ -3,7 +3,7 @@ import LNPopupUI
 import sharedKit
 
 struct PlayerScreen: View {
-    private let viewModel: PlayerViewModel = KoinHelper().getPlayerViewModel()
+    @State private var viewModel: PlayerViewModel = KoinHelper().getPlayerViewModel()
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State private var path = NavigationPath()

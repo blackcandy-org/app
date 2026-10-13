@@ -2,7 +2,7 @@ import SwiftUI
 import sharedKit
 
 struct LoginScreen: View {
-    private let viewModel: LoginViewModel = KoinHelper().getLoginViewModel()
+    @State private var viewModel: LoginViewModel = KoinHelper().getLoginViewModel()
 
     @State private var path = NavigationPath()
 

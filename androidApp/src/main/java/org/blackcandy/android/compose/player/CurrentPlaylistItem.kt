@@ -26,14 +26,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import org.blackcandy.android.R
 import org.blackcandy.shared.models.Song
-import sh.calvin.reorderable.ReorderableItemScope
+import sh.calvin.reorderable.ReorderableCollectionItemScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrentPlaylistItem(
     song: Song,
     isCurrent: Boolean,
-    scope: ReorderableItemScope,
+    scope: ReorderableCollectionItemScope,
     onSweepToDismiss: (Long) -> Unit,
     onClicked: (Long) -> Unit,
     onMoveStarted: (Long) -> Unit,

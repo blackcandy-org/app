@@ -46,7 +46,7 @@ private const val LOAD_MORE_THRESHOLD = 6
 
 @Composable
 fun SongsScreen(
-    navigateUp: () -> Unit,
+    navigateUp: (() -> Unit)?,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     viewModel: SongsViewModel = koinViewModel(),
 ) {
