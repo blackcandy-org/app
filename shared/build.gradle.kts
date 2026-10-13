@@ -76,6 +76,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.koin.test)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 

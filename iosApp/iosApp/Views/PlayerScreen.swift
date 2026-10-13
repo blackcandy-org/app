@@ -3,7 +3,7 @@ import LNPopupUI
 import sharedKit
 
 struct PlayerScreen: View {
-    private let viewModel: PlayerViewModel = KoinHelper().getPlayerViewModel()
+    @State private var viewModel: PlayerViewModel = KoinHelper().getPlayerViewModel()
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State private var path = NavigationPath()
@@ -41,7 +41,7 @@ struct PlayerScreen: View {
                         .padding(CustomStyle.spacing(.medium))
                         .cornerRadius(CustomStyle.cornerRadius(.large))
 
-                        PlayerPlaylist(
+                        CurrentPlaylist(
                             playlist: uiState.musicState.playlist,
                             currentSong: uiState.musicState.currentSong,
                             onItemClicked: { viewModel.playOn(songId: $0) },
@@ -66,15 +66,15 @@ struct PlayerScreen: View {
                         onNextButtonClicked: { viewModel.next() },
                         onPlayButtonClicked: { viewModel.play() },
                         onPauseButtonClicked: { viewModel.pause() },
-                        onPlaylistButtonClicked: { path.append(Route.playlist) },
+                        onPlaylistButtonClicked: { path.append(Route.currentPlaylist) },
                         onModeSwitchButtonClicked: { viewModel.nextMode() },
                         onFavoriteButtonClicked: { viewModel.toggleFavorite() },
                         onSeek: { viewModel.seekToRatio(ratio: $0) }
                     )
                     .navigationDestination(for: Route.self) { route in
                         switch route {
-                        case .playlist:
-                            PlayerPlaylist(
+                        case .currentPlaylist:
+                            CurrentPlaylist(
                                 playlist: uiState.musicState.playlist,
                                 currentSong: uiState.musicState.currentSong,
                                 onItemClicked: { viewModel.playOn(songId: $0) },
@@ -156,6 +156,6 @@ struct PlayerScreen: View {
 
 extension PlayerScreen {
     enum Route: Hashable {
-        case playlist
+        case currentPlaylist
     }
 }

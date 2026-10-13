@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,8 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -49,7 +45,7 @@ import org.koin.androidx.compose.koinViewModel
 
 enum class PlayerRoute {
     FullPlayer,
-    Playlist,
+    CurrentPlaylist,
 }
 
 @Composable
@@ -126,12 +122,12 @@ fun PlayerScreenWideLayout(
             Column(
                 modifier = Modifier.weight(1f),
             ) {
-                PlaylistHeader(
+                CurrentPlaylistHeader(
                     tracksCount = uiState.musicState.playlist.size,
                     onClearAllButtonClicked = { viewModel.clearPlaylist() },
                 )
 
-                Playlist(
+                CurrentPlaylist(
                     modifier =
                         Modifier
                             .heightIn(max = dimensionResource(R.dimen.playlist_max_height)),
@@ -170,8 +166,8 @@ fun PlayerScreenCompactLayout(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
-            if (currentRoute == PlayerRoute.Playlist) {
-                PlaylistAppBar(
+            if (currentRoute == PlayerRoute.CurrentPlaylist) {
+                CurrentPlaylistAppBar(
                     canNavigateBack = navController.previousBackStackEntry != null,
                     navigateUp = { navController.navigateUp() },
                     onClearAllButtonClicked = { viewModel.clearPlaylist() },
@@ -183,9 +179,6 @@ fun PlayerScreenCompactLayout(
         NavHost(
             navController = navController,
             startDestination = PlayerRoute.FullPlayer.name,
-            modifier =
-                Modifier
-                    .nestedScroll(rememberNestedScrollInteropConnection()),
         ) {
             composable(route = PlayerRoute.FullPlayer.name) {
                 FullPlayer(
@@ -210,12 +203,12 @@ fun PlayerScreenCompactLayout(
                     onSeek = { viewModel.seekTo(it) },
                     onModeSwitchButtonClicked = { viewModel.nextMode() },
                     onFavoriteButtonClicked = { viewModel.toggleFavorite() },
-                    onPlaylistButtonClicked = { navController.navigate(PlayerRoute.Playlist.name) },
+                    onPlaylistButtonClicked = { navController.navigate(PlayerRoute.CurrentPlaylist.name) },
                 )
             }
 
-            composable(route = PlayerRoute.Playlist.name) {
-                Playlist(
+            composable(route = PlayerRoute.CurrentPlaylist.name) {
+                CurrentPlaylist(
                     modifier =
                         Modifier
                             .padding(innerPadding),
@@ -237,7 +230,7 @@ fun PlayerScreenCompactLayout(
 }
 
 @Composable
-fun PlaylistHeader(
+fun CurrentPlaylistHeader(
     tracksCount: Int,
     onClearAllButtonClicked: () -> Unit,
 ) {
@@ -262,7 +255,7 @@ fun PlaylistHeader(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlaylistAppBar(
+fun CurrentPlaylistAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     onClearAllButtonClicked: () -> Unit,
@@ -273,7 +266,7 @@ fun PlaylistAppBar(
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        painter = painterResource(R.drawable.baseline_arrow_back_24),
                         contentDescription = stringResource(R.string.back_button_description),
                     )
                 }

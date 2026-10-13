@@ -15,11 +15,4 @@ data class Song(
     val format: String,
     val albumImageUrls: ImageURLs,
     var isFavorited: Boolean,
-) {
-    @Serializable
-    data class ImageURLs(
-        val small: String,
-        val medium: String,
-        val large: String,
-    )
-}
+)

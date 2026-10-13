@@ -1,6 +1,9 @@
 import UIKit
 
+func currentSceneDelegate() -> SceneDelegate? {
+    UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+}
+
 func changeRootViewController(viewController: UIViewController) {
-    let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-            sceneDelegate?.window?.rootViewController = viewController
+    currentSceneDelegate()?.window?.rootViewController = viewController
 }

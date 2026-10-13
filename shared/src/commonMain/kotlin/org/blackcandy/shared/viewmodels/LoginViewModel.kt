@@ -105,11 +105,11 @@ class LoginViewModel(
         }
     }
 
-    fun login(onSuccess: (String) -> Unit = {}) {
+    fun login(onSuccess: () -> Unit = {}) {
         viewModelScope.launch {
             when (val result = userRepository.login(uiState.value.email, uiState.value.password)) {
                 is TaskResult.Success -> {
-                    onSuccess(result.data)
+                    onSuccess()
                 }
 
                 is TaskResult.Failure -> {

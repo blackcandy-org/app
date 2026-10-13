@@ -38,6 +38,8 @@ struct CustomStyle {
   static let playerMaxWidth: CGFloat = 350
   static let playlistMaxHeight: CGFloat = 550
   static let loginFormMaxWidth: CGFloat = 600
+  static let coverGridMinWidth: CGFloat = 150
+  static let songCoverSize: CGFloat = 48
 
   static func spacing(_ spacing: Spacing) -> CGFloat {
     spacing.rawValue
