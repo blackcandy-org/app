@@ -52,10 +52,6 @@ fun PlaylistsScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadFirstPage()
-    }
-
     LaunchedEffect(shouldLoadMore) {
         if (shouldLoadMore) {
             viewModel.loadNextPage()

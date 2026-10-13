@@ -19,9 +19,6 @@ struct HomeScreen: View {
                 onAction: { viewModel.alertActionPerformed(action: $0) }
             )
         }
-        .task {
-            viewModel.load()
-        }
         .navigationTitle("label.home")
     }
 }

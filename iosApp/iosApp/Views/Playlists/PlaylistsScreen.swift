@@ -35,9 +35,6 @@ struct PlaylistsScreen: View {
                 onAction: { viewModel.alertActionPerformed(action: $0) }
             )
         }
-        .task {
-            viewModel.loadFirstPage()
-        }
         .navigationTitle("label.playlists")
     }
 }

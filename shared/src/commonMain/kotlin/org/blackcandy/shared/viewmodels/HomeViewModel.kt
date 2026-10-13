@@ -3,7 +3,9 @@ package org.blackcandy.shared.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.blackcandy.shared.data.AlbumRepository
@@ -22,9 +24,16 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
 
-    val uiState = _uiState.asStateFlow()
+    val uiState =
+        _uiState
+            .onStart { load() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Lazily,
+                initialValue = HomeUiState(),
+            )
 
-    fun load() {
+    private fun load() {
         viewModelScope.launch {
             when (val result = albumRepository.getRecentlyPlayedAlbums()) {
                 is TaskResult.Success -> {

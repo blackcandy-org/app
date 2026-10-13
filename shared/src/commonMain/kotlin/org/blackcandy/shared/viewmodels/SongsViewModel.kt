@@ -3,7 +3,9 @@ package org.blackcandy.shared.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.blackcandy.shared.api.Paged
@@ -29,9 +31,16 @@ class SongsViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SongsUiState())
 
-    val uiState = _uiState.asStateFlow()
+    val uiState =
+        _uiState
+            .onStart { loadFirstPage() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Lazily,
+                initialValue = SongsUiState(),
+            )
 
-    fun loadFirstPage() {
+    private fun loadFirstPage() {
         load { songRepository.getSongs() }
     }
 

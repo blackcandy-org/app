@@ -51,10 +51,6 @@ fun ArtistsScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadFirstPage()
-    }
-
     LaunchedEffect(shouldLoadMore) {
         if (shouldLoadMore) {
             viewModel.loadNextPage()

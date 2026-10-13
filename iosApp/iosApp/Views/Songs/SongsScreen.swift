@@ -54,9 +54,6 @@ struct SongsScreen: View {
 
             viewModel.alertMessageShown()
         }
-        .task {
-            viewModel.loadFirstPage()
-        }
         .navigationTitle("label.songs")
     }
 }

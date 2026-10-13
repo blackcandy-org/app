@@ -176,7 +176,7 @@ private fun MainNavigationBar(
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
     NavigationBar(modifier = modifier) {
-        MainTab.entries.forEach { tab ->
+        listOf(MainTab.HomeTab, MainTab.LibraryTab).forEach { tab ->
             NavigationBarItem(
                 selected = currentDestination.isInTab(tab),
                 onClick = { navController.navigateToTab(tab) },
@@ -194,7 +194,7 @@ private fun MainNavigationRail(navController: NavHostController) {
     NavigationRail {
         Spacer(modifier = Modifier.weight(1f))
 
-        MainTab.entries.forEach { tab ->
+        listOf(MainTab.HomeTab, MainTab.LibraryTab).forEach { tab ->
             NavigationRailItem(
                 selected = currentDestination.isInTab(tab),
                 onClick = { navController.navigateToTab(tab) },
@@ -227,36 +227,14 @@ private fun MainExpandedNavigationRail(navController: NavHostController) {
             style = MaterialTheme.typography.titleSmall,
         )
 
-        WideNavigationRailItem(
-            selected = currentDestination?.route == MainRoute.Albums.name,
-            onClick = { navController.navigateToLibraryItem(MainRoute.Albums) },
-            icon = { Icon(painterResource(R.drawable.baseline_album_24), contentDescription = null) },
-            label = { Text(stringResource(R.string.albums)) },
-            railExpanded = true,
-        )
-
-        WideNavigationRailItem(
-            selected = currentDestination?.route == MainRoute.Artists.name,
-            onClick = { navController.navigateToLibraryItem(MainRoute.Artists) },
-            icon = { Icon(painterResource(R.drawable.baseline_mic_24), contentDescription = null) },
-            label = { Text(stringResource(R.string.artists)) },
-            railExpanded = true,
-        )
-
-        WideNavigationRailItem(
-            selected = currentDestination?.route == MainRoute.Songs.name,
-            onClick = { navController.navigateToLibraryItem(MainRoute.Songs) },
-            icon = { Icon(painterResource(R.drawable.baseline_music_note_24), contentDescription = null) },
-            label = { Text(stringResource(R.string.songs)) },
-            railExpanded = true,
-        )
-
-        WideNavigationRailItem(
-            selected = currentDestination?.route == MainRoute.Playlists.name,
-            onClick = { navController.navigateToLibraryItem(MainRoute.Playlists) },
-            icon = { Icon(painterResource(R.drawable.baseline_queue_music_24), contentDescription = null) },
-            label = { Text(stringResource(R.string.playlists)) },
-            railExpanded = true,
-        )
+        listOf(MainTab.AlbumsTab, MainTab.ArtistsTab, MainTab.SongsTab, MainTab.PlaylistsTab).forEach { tab ->
+            WideNavigationRailItem(
+                selected = currentDestination.isInTab(tab),
+                onClick = { navController.navigateToTab(tab) },
+                icon = { Icon(painterResource(tab.iconResId), contentDescription = null) },
+                label = { Text(stringResource(tab.titleResId)) },
+                railExpanded = true,
+            )
+        }
     }
 }

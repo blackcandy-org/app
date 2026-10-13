@@ -1,6 +1,5 @@
 package org.blackcandy.android
 
-import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
@@ -13,7 +12,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import org.blackcandy.android.compose.albums.AlbumsScreen
 import org.blackcandy.android.compose.artists.ArtistsScreen
@@ -25,9 +23,14 @@ import org.blackcandy.android.compose.songs.SongsScreen
 enum class MainTab(
     @StringRes val titleResId: Int,
     @DrawableRes val iconResId: Int,
+    val libraryRoute: MainRoute? = null,
 ) {
     HomeTab(R.string.home, R.drawable.baseline_home_24),
     LibraryTab(R.string.library, R.drawable.baseline_library_music_24),
+    AlbumsTab(R.string.albums, R.drawable.baseline_album_24, MainRoute.Albums),
+    ArtistsTab(R.string.artists, R.drawable.baseline_mic_24, MainRoute.Artists),
+    SongsTab(R.string.songs, R.drawable.baseline_music_note_24, MainRoute.Songs),
+    PlaylistsTab(R.string.playlists, R.drawable.baseline_queue_music_24, MainRoute.Playlists),
 }
 
 enum class MainRoute {
@@ -45,9 +48,6 @@ fun MainNavHost(
     usesExpandedNavigationRail: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
-    val navigateUp: (() -> Unit)? = if (usesExpandedNavigationRail) null else navController::navigateUp
-
     NavHost(
         navController = navController,
         startDestination = MainTab.HomeTab.name,
@@ -70,30 +70,52 @@ fun MainNavHost(
             }
 
             composable(MainRoute.Albums.name) {
-                AlbumsScreen(navigateUp = navigateUp)
+                AlbumsScreen(navigateUp = { navController.navigateUp() })
             }
 
             composable(MainRoute.Artists.name) {
-                ArtistsScreen(navigateUp = navigateUp)
+                ArtistsScreen(navigateUp = { navController.navigateUp() })
             }
 
             composable(MainRoute.Songs.name) {
-                SongsScreen(navigateUp = navigateUp)
+                SongsScreen(navigateUp = { navController.navigateUp() })
             }
 
             composable(MainRoute.Playlists.name) {
-                PlaylistsScreen(navigateUp = navigateUp)
+                PlaylistsScreen(navigateUp = { navController.navigateUp() })
             }
+        }
+
+        composable(MainTab.AlbumsTab.name) {
+            AlbumsScreen(navigateUp = null)
+        }
+
+        composable(MainTab.ArtistsTab.name) {
+            ArtistsScreen(navigateUp = null)
+        }
+
+        composable(MainTab.SongsTab.name) {
+            SongsScreen(navigateUp = null)
+        }
+
+        composable(MainTab.PlaylistsTab.name) {
+            PlaylistsScreen(navigateUp = null)
         }
     }
 
-    BackHandler(enabled = usesExpandedNavigationRail && currentDestination.isInTab(MainTab.LibraryTab)) {
-        navController.navigateToTab(MainTab.HomeTab)
-    }
-
     LaunchedEffect(usesExpandedNavigationRail) {
-        if (usesExpandedNavigationRail && navController.currentDestination?.route == MainRoute.Library.name) {
-            navController.navigateToLibraryItem(MainRoute.Albums)
+        val currentDestination = navController.currentDestination
+        val libraryRoute = MainTab.entries.firstOrNull { currentDestination.isInTab(it) }?.libraryRoute
+
+        if (!usesExpandedNavigationRail && libraryRoute != null) {
+            navController.navigateToTab(MainTab.LibraryTab)
+            navController.navigate(libraryRoute.name) {
+                popUpTo(MainRoute.Library.name)
+            }
+        } else if (usesExpandedNavigationRail && currentDestination.isInTab(MainTab.LibraryTab)) {
+            navController.navigateToTab(
+                MainTab.entries.firstOrNull { it.libraryRoute?.name == currentDestination?.route } ?: MainTab.AlbumsTab,
+            )
         }
     }
 }
@@ -106,13 +128,6 @@ fun NavController.navigateToTab(tab: MainTab) {
         }
         launchSingleTop = true
         restoreState = true
-    }
-}
-
-fun NavController.navigateToLibraryItem(route: MainRoute) {
-    navigateToTab(MainTab.LibraryTab)
-    navigate(route.name) {
-        popUpTo(MainRoute.Library.name)
     }
 }
 

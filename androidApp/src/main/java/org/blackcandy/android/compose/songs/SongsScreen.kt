@@ -64,10 +64,6 @@ fun SongsScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadFirstPage()
-    }
-
     LaunchedEffect(shouldLoadMore) {
         if (shouldLoadMore) {
             viewModel.loadNextPage()
